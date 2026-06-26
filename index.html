@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Raising Happy Children — Dr. Johnson</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://unpkg.com/docx@8.5.0/build/index.umd.js';document.head.appendChild(s);"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #faf7f2; font-family: Georgia, 'Times New Roman', serif; color: #2c2416; min-height: 100vh; }
@@ -139,33 +139,6 @@
   </div>
 </div>
 
-<!-- ══ VOICE SAMPLE ════════════════════════════════════════════════════════ -->
-<div id="page-voice" class="hidden">
-  <div class="header">
-    <p class="header-sub">Final Step</p>
-    <h1 class="header-title">Teach Claude Your Voice</h1>
-  </div>
-  <div class="wrap">
-    <div class="card">
-      <span class="lbl">Optional but powerful</span>
-      <p class="body-text">Share a few paragraphs from something Dr. Johnson has already written — a book, a sermon, a letter. Paste it in, or read it aloud using the microphone. Claude will learn his voice and style.</p>
-      <div class="mic-wrap">
-        <button class="mic-btn" id="mic-voice" onclick="toggleMic('voice')">
-          <span>🎙️</span><span>Speak Instead of Type</span>
-        </button>
-        <p class="mic-hint">Press and speak — your words appear in the box automatically.</p>
-        <div class="mic-live hidden" id="live-voice"></div>
-      </div>
-      <textarea id="voice-sample" rows="8" placeholder="Paste a writing sample here — or press the microphone and read a passage aloud..."></textarea>
-      <hr class="divider">
-      <div class="btn-row">
-        <button class="btn-out" onclick="goTo('form')">← Back to Stages</button>
-        <button class="btn-gold" onclick="generateBook()">Generate the Book →</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ══ LOADING ═════════════════════════════════════════════════════════════ -->
 <div id="page-generate" class="hidden">
   <div class="header">
@@ -220,15 +193,15 @@
 
 <script>
 const STAGES = [
-  { id: "pregnancy",    label: "Stage 1: Learning You're Pregnant",          subtitle: "What should parents know the moment they find out?",                          placeholder: "Share your wisdom for new and expectant parents — fears, hopes, what to do first..." },
-  { id: "daddy_baby",   label: "Stage 2: Daddy's Role with the Baby",         subtitle: "The early days — a father's purpose and presence",                           placeholder: "What does a good father look like in those first months of life?" },
-  { id: "mommy_baby",   label: "Stage 3: Mommy's Role with the Baby",         subtitle: "A mother's irreplaceable bond",                                              placeholder: "What does a mother provide that no one else can in a child's earliest years?" },
-  { id: "needs_mommy",  label: "Stage 4: When They Need Mommy More Than Daddy", subtitle: "Recognizing a child's emotional pull toward Mom",                         placeholder: "At what ages and in what situations does a child lean toward their mother?" },
-  { id: "needs_daddy",  label: "Stage 5: When They Need a Dad Figure More Than Mom", subtitle: "The season when fathers step to the forefront",                      placeholder: "When does a child begin to need the presence, strength, or guidance of a father figure most?" },
-  { id: "independence", label: "Stage 6: Becoming Independent",               subtitle: "The first sparks of 'I can do it myself'",                                  placeholder: "How should parents handle a child's growing desire for independence?" },
-  { id: "puberty",      label: "Stage 7: Going Through Puberty",              subtitle: "Navigating one of life's most turbulent transitions",                        placeholder: "What do parents need to understand — and do — during puberty?" },
-  { id: "young_adult",  label: "Stage 8: Becoming a Young Adult",             subtitle: "College years, first jobs, first heartbreaks",                              placeholder: "How should parents evolve their role as their child enters adulthood?" },
-  { id: "leave_nest",   label: "Stage 9: Leaving the Nest",                   subtitle: "The end goal — a healthy, independent human being",                         placeholder: "What does success look like? How do you know you've raised a child well?" },
+  { id: "pregnancy",    label: "Stage 1: Learning You're Pregnant",          subtitle: "The very beginning — what should new parents take to heart?",                placeholder: "Speak to expectant parents the way you would in your office. A story if one comes to mind, then the plain wisdom — what matters most as they begin?" },
+  { id: "daddy_baby",   label: "Stage 2: Daddy's Role with the Baby",         subtitle: "A father's purpose and presence in the early days",                          placeholder: "What does a good father provide in those first months? Share a story from your years of counseling, then the common-sense lesson behind it." },
+  { id: "mommy_baby",   label: "Stage 3: Mommy's Role with the Baby",         subtitle: "A mother's irreplaceable bond in the earliest days",                         placeholder: "What does a mother give that no one else can? Tell it the way you would to a young mother — perhaps a story, then the heart of the matter." },
+  { id: "needs_mommy",  label: "Stage 4: When They Need Mommy More Than Daddy", subtitle: "Recognizing a child's natural pull toward Mom",                            placeholder: "When and why does a little one lean toward their mother? What should both parents understand so neither feels slighted?" },
+  { id: "needs_daddy",  label: "Stage 5: When They Need a Dad Figure More Than Mom", subtitle: "The season when a father steps to the forefront",                     placeholder: "When does a child most need a father's steadiness and guidance? An example from your practice helps — then the lesson for parents." },
+  { id: "independence", label: "Stage 6: Becoming Independent",               subtitle: "The first sparks of 'I can do it myself'",                                  placeholder: "How should parents handle a child's growing independence? You've long said never to do for a child what the child can do for himself — bring that to life here." },
+  { id: "puberty",      label: "Stage 7: Going Through Puberty",              subtitle: "Ah, teenagers — one of life's most turbulent passages",                      placeholder: "What do parents most need to understand in these years? Firmness with love, natural and logical consequences, a story from your practice — whatever you'd tell a worried parent." },
+  { id: "young_adult",  label: "Stage 8: Becoming a Young Adult",             subtitle: "First jobs, first heartbreaks, becoming their own person",                   placeholder: "How should a parent's role change as a child steps into adulthood? Share the wisdom — and a story if one fits." },
+  { id: "leave_nest",   label: "Stage 9: Leaving the Nest",                   subtitle: "The whole goal — a healthy, independent human being",                        placeholder: "What does it look like to have raised a child well? How does a parent know the job was done with love? Close with the heart of it." },
 ];
 
 let answers = {};
@@ -248,7 +221,6 @@ function collectState() {
     u: USER_ID,
     answers: answers,
     bookGoal: (document.getElementById('book-goal') || {}).value || '',
-    voiceSample: (document.getElementById('voice-sample') || {}).value || '',
     draft: outputText || ''
   };
 }
@@ -290,17 +262,14 @@ async function bootstrap() {
   if (data && Object.keys(data).length) {
     answers = data.answers || {};
     if (data.bookGoal) document.getElementById('book-goal').value = data.bookGoal;
-    if (data.voiceSample) document.getElementById('voice-sample').value = data.voiceSample;
     if (data.draft) outputText = data.draft;
     lastSavedJSON = JSON.stringify(collectState());
     const filled = STAGES.filter(s => (answers[s.id] || '').trim()).length;
     if (filled > 0 || outputText) showResumeBanner(filled);
   }
-  // Keep the optional intro/voice boxes saving as he types too.
+  // Keep the optional intro box saving as he types too.
   const goalEl = document.getElementById('book-goal');
-  const voiceEl = document.getElementById('voice-sample');
   if (goalEl) goalEl.addEventListener('input', scheduleSave);
-  if (voiceEl) voiceEl.addEventListener('input', scheduleSave);
 }
 
 function showResumeBanner(filled) {
@@ -351,7 +320,7 @@ function renderForm() {
 
   const isLast = activeStage === STAGES.length - 1;
   const nextBtn = document.getElementById('next-btn');
-  nextBtn.textContent = isLast ? 'Continue to Final Step →' : 'Next Stage →';
+  nextBtn.textContent = isLast ? 'Generate the Book →' : 'Next Stage →';
 
   updateDots();
 }
@@ -380,7 +349,7 @@ function saveCurrentAnswer() {
 
 function nextStage() {
   saveCurrentAnswer();
-  if (activeStage === STAGES.length - 1) { goTo('voice'); return; }
+  if (activeStage === STAGES.length - 1) { generateBook(); return; }
   activeStage++;
   renderForm();
   window.scrollTo(0, 0);
@@ -443,9 +412,6 @@ function appendTranscript(context, text) {
     const ta = document.getElementById('stage-answer');
     ta.value += text;
     answers[STAGES[activeStage].id] = ta.value;
-  } else if (context === 'voice') {
-    const ta = document.getElementById('voice-sample');
-    ta.value += text;
   } else if (context === 'intro') {
     const ta = document.getElementById('book-goal');
     ta.value += text;
@@ -458,23 +424,19 @@ async function generateBook() {
   saveCurrentAnswer();
   goTo('generate');
 
-  const voiceSample = document.getElementById('voice-sample').value.trim();
   const bookGoal = document.getElementById('book-goal').value.trim();
 
   const stageContent = STAGES.map(s => `## ${s.label}\n${(answers[s.id] || '').trim() || '(No notes provided)'}`).join('\n\n');
 
-  const prompt = `You are a ghostwriter helping Dr. Johnson, a 97-year-old child development expert, write a parenting book called "Raising Happy Children."
-
-${voiceSample ? `VOICE SAMPLE — study carefully and match his rhythm, warmth, and word choices:\n---\n${voiceSample}\n---\n` : ''}
+  const prompt = `Dr. Johnson, a 97-year-old child development expert, is writing a parenting book called "Raising Happy Children." Write it in his voice (you already know his style).
 
 BOOK PURPOSE: ${bookGoal || 'To help parents and grandparents understand their children and how to raise healthy, productive human beings.'}
 
 Dr. Johnson has shared his personal wisdom for each stage of a child's development. Your job:
-1. Write in his voice — warm, experienced, pastoral, direct
-2. Expand each stage into a polished book section (3–5 paragraphs)
-3. Make it feel like wisdom from a grandfather who has seen everything
-4. Use simple, timeless language — not trendy or clinical
-5. Open each section with a short memorable line
+1. Expand each stage into a polished book section (3–5 paragraphs) in his warm, story-driven, common-sense voice
+2. Where natural, open a section with one of his real-life style anecdotes, then draw out the plain lesson
+3. Use simple, timeless language — never trendy or clinical
+4. Open each section with a short, memorable line
 
 Dr. Johnson's notes:
 
@@ -536,6 +498,10 @@ function downloadBlob(blob, filename) {
 // The polished, AI-written book.
 function exportDocx() {
   const btn = document.getElementById('docx-btn');
+  if (typeof docx === 'undefined') {
+    alert('The Word builder is still loading or was blocked by your browser. Please reload the page (or use the Copy Text button) and try again.');
+    return;
+  }
   btn.textContent = 'Preparing…';
   btn.disabled = true;
 
@@ -588,6 +554,10 @@ function exportDocx() {
 // reads as an accumulating manuscript.
 function exportNotesDocx(btnId) {
   const btn = btnId ? document.getElementById(btnId) : null;
+  if (typeof docx === 'undefined') {
+    alert('The Word builder is still loading or was blocked by your browser. Please reload the page (or use the Copy Text button) and try again.');
+    return;
+  }
   const label = btn ? btn.textContent : '';
   if (btn) { btn.textContent = 'Preparing…'; btn.disabled = true; }
 
