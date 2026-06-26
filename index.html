@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raising Happy Children — Dr. Johnson</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #faf7f2; font-family: Georgia, 'Times New Roman', serif; color: #2c2416; min-height: 100vh; }
+
+  .header { background: #2c2416; color: #f5ead6; padding: 36px 48px 28px; border-bottom: 4px solid #c4923a; }
+  .header-sub { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #c4923a; }
+  .header-title { font-size: clamp(20px, 4vw, 36px); font-weight: 400; font-style: italic; letter-spacing: 0.03em; margin-top: 6px; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 36px 20px 80px; }
+  .card { background: #fff; border: 1px solid #e8dfc8; border-radius: 4px; padding: 32px 36px; margin-bottom: 20px; box-shadow: 0 2px 14px rgba(44,36,22,0.07); }
+
+  .lbl { display: block; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #c4923a; margin-bottom: 8px; }
+  .sub { font-size: 13px; color: #7a6a50; margin-bottom: 16px; }
+  h2.card-title { font-size: 21px; font-weight: 400; font-style: italic; margin-bottom: 14px; }
+  p.body-text { font-size: 15px; line-height: 1.8; color: #5a4e38; margin-bottom: 14px; }
+
+  textarea { width: 100%; min-height: 130px; border: 1px solid #d8ccb4; border-radius: 3px; padding: 14px 16px; font-family: Georgia, serif; font-size: 15px; color: #2c2416; background: #fdfaf5; resize: vertical; outline: none; line-height: 1.75; }
+
+  .btn       { padding: 12px 28px; background: #2c2416; color: #f5ead6; border: none; border-radius: 3px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; }
+  .btn-gold  { padding: 12px 28px; background: #c4923a; color: #fff; border: none; border-radius: 3px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; }
+  .btn-out   { padding: 11px 24px; background: transparent; color: #2c2416; border: 1px solid #2c2416; border-radius: 3px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; }
+  .btn-blue  { padding: 12px 28px; background: #1a4a7a; color: #fff; border: none; border-radius: 3px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; }
+  .btn-green { padding: 12px 28px; background: #4a7c4e; color: #fff; border: none; border-radius: 3px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; }
+
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; flex-wrap: wrap; gap: 10px; }
+
+  .pbar-wrap { height: 3px; background: #e8dfc8; border-radius: 2px; margin-bottom: 28px; overflow: hidden; }
+  .pbar-fill { height: 100%; background: #c4923a; border-radius: 2px; transition: width 0.4s; }
+
+  .dots { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 22px; }
+  .dot { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #d8ccb4; background: #faf7f2; color: #7a6a50; font-size: 11px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; flex-shrink: 0; font-family: Georgia, serif; }
+  .dot.active { border: 2px solid #c4923a; background: #fff8ee; color: #c4923a; }
+  .dot.filled { background: #c4923a; color: #fff; border-color: #c4923a; }
+
+  .mic-wrap { margin-bottom: 14px; }
+  .mic-btn { display: flex; align-items: center; gap: 10px; padding: 11px 22px; background: #fdfaf5; color: #5a4e38; border: 2px solid #d8ccb4; border-radius: 30px; cursor: pointer; font-family: Georgia, serif; font-size: 14px; font-style: italic; transition: all 0.25s; }
+  .mic-btn.recording { background: #e8453c; color: #fff; border-color: #e8453c; animation: ripple 1.4s infinite; }
+  .mic-hint { font-size: 12px; color: #9a8060; font-style: italic; margin-top: 5px; }
+  .mic-live { margin-top: 8px; padding: 8px 14px; background: #fff8ee; border: 1px solid #f0dfc0; border-radius: 3px; font-size: 13px; color: #7a6a50; font-style: italic; }
+
+  @keyframes ripple { 0%,100%{ box-shadow: 0 0 0 0 rgba(232,69,60,0.4); } 50%{ box-shadow: 0 0 0 8px rgba(232,69,60,0); } }
+
+  hr.divider { border: none; border-top: 1px solid #e8dfc8; margin: 24px 0; }
+
+  .export-box { background: #eef4fb; border: 1px solid #b8d0e8; border-radius: 4px; padding: 16px 20px; margin-bottom: 18px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .export-icon { font-size: 24px; }
+  .export-info { flex: 1; }
+  .export-info strong { font-size: 14px; color: #1a4a7a; display: block; margin-bottom: 2px; }
+  .export-info span { font-size: 12px; color: #4a6a8a; }
+
+  .output-box { background: #fdfaf5; border: 1px solid #e8dfc8; border-radius: 4px; padding: 28px 32px; white-space: pre-wrap; font-family: Georgia, serif; font-size: 15px; line-height: 1.85; color: #2c2416; max-height: 520px; overflow-y: auto; margin-bottom: 6px; }
+
+  .loading-center { text-align: center; padding: 60px 40px; }
+  .loading-icon { font-size: 44px; margin-bottom: 18px; }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 600px) {
+    .header { padding: 24px 20px 18px; }
+    .card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="save-status" style="position:fixed;top:10px;right:14px;font-size:12px;color:#9a8060;font-family:Georgia,serif;font-style:italic;z-index:60;background:rgba(250,247,242,0.9);padding:4px 12px;border-radius:20px;border:1px solid #e8dfc8;"></div>
+
+<!-- ══ INTRO ══════════════════════════════════════════════════════════════ -->
+<div id="page-intro">
+  <div class="header">
+    <p class="header-sub">A Book Writing Tool for</p>
+    <h1 class="header-title">Raising Happy Children</h1>
+    <p class="header-sub" style="color:#9a8060;margin-top:4px;">Dr. Johnson · Guided by Claude AI</p>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <span class="lbl">Welcome, Dr. Johnson</span>
+      <h2 class="card-title">Your wisdom. Your words. Your book.</h2>
+      <p class="body-text">This tool walks you through each stage of a child's life — from pregnancy to leaving the nest. For each stage, share what you know in your own words.</p>
+      <p class="body-text">You can <strong>type</strong> or simply <strong>press the microphone and speak</strong>. When finished, Claude turns your thoughts into a polished draft — which you can download as a Word document.</p>
+      <div id="resume-note" class="hidden" style="background:#fff8ee;border:1px solid #f0dfc0;border-radius:4px;padding:18px 20px;margin-bottom:22px;">
+        <strong style="display:block;color:#c4923a;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:8px;">Welcome back, Dr. Johnson</strong>
+        <span id="resume-text" style="font-size:15px;color:#5a4e38;line-height:1.6;"></span>
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-gold" onclick="continueWhereLeftOff()">Continue where you left off →</button>
+          <button class="btn-out" id="resume-download-notes" onclick="exportNotesDocx('resume-download-notes')">⬇ Download what's written so far</button>
+          <button class="btn-out hidden" id="resume-view-draft">View saved draft</button>
+        </div>
+      </div>
+      <label class="lbl">What is this book meant to do? (optional)</label>
+      <div class="mic-wrap">
+        <button class="mic-btn" id="mic-intro" onclick="toggleMic('intro')">
+          <span>🎙️</span><span>Speak Instead of Type</span>
+        </button>
+        <p class="mic-hint">Press and speak — your words appear in the box automatically.</p>
+        <div class="mic-live hidden" id="live-intro"></div>
+      </div>
+      <textarea id="book-goal" rows="4" placeholder="Example: This book is designed to help parents and grandparents understand their children and help them grow up to be healthy, productive human beings."></textarea>
+      <div style="margin-top:20px;">
+        <button class="btn-gold" onclick="goTo('form')">Begin Writing →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FORM ════════════════════════════════════════════════════════════════ -->
+<div id="page-form" class="hidden">
+  <div class="header">
+    <p class="header-sub" id="form-stage-label">Stage 1 of 9</p>
+    <h1 class="header-title" id="form-stage-title"></h1>
+  </div>
+  <div class="wrap">
+    <div class="pbar-wrap"><div class="pbar-fill" id="pbar" style="width:0%"></div></div>
+    <div class="dots" id="dots-row"></div>
+    <div class="card">
+      <p class="sub" id="form-stage-sub"></p>
+      <div class="mic-wrap">
+        <button class="mic-btn" id="mic-form" onclick="toggleMic('form')">
+          <span>🎙️</span><span>Speak Instead of Type</span>
+        </button>
+        <p class="mic-hint">Press and speak — your words appear in the box automatically.</p>
+        <div class="mic-live hidden" id="live-form"></div>
+      </div>
+      <textarea id="stage-answer" rows="7" placeholder=""></textarea>
+      <div class="nav-row">
+        <button class="btn-out" onclick="prevStage()">← Back</button>
+        <button class="btn-gold" id="next-btn" onclick="nextStage()">Next Stage →</button>
+      </div>
+    </div>
+    <p style="font-size:12px;color:#9a8060;text-align:center;margin-top:8px;" id="fill-count"></p>
+  </div>
+</div>
+
+<!-- ══ VOICE SAMPLE ════════════════════════════════════════════════════════ -->
+<div id="page-voice" class="hidden">
+  <div class="header">
+    <p class="header-sub">Final Step</p>
+    <h1 class="header-title">Teach Claude Your Voice</h1>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <span class="lbl">Optional but powerful</span>
+      <p class="body-text">Share a few paragraphs from something Dr. Johnson has already written — a book, a sermon, a letter. Paste it in, or read it aloud using the microphone. Claude will learn his voice and style.</p>
+      <div class="mic-wrap">
+        <button class="mic-btn" id="mic-voice" onclick="toggleMic('voice')">
+          <span>🎙️</span><span>Speak Instead of Type</span>
+        </button>
+        <p class="mic-hint">Press and speak — your words appear in the box automatically.</p>
+        <div class="mic-live hidden" id="live-voice"></div>
+      </div>
+      <textarea id="voice-sample" rows="8" placeholder="Paste a writing sample here — or press the microphone and read a passage aloud..."></textarea>
+      <hr class="divider">
+      <div class="btn-row">
+        <button class="btn-out" onclick="goTo('form')">← Back to Stages</button>
+        <button class="btn-gold" onclick="generateBook()">Generate the Book →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LOADING ═════════════════════════════════════════════════════════════ -->
+<div id="page-generate" class="hidden">
+  <div class="header">
+    <p class="header-sub">Please wait</p>
+    <h1 class="header-title">Claude is writing your book…</h1>
+  </div>
+  <div class="wrap">
+    <div class="card loading-center">
+      <div class="loading-icon">✍️</div>
+      <p style="font-size:16px;color:#5a4e38;font-style:italic;">Reading Dr. Johnson's wisdom across all 9 stages…</p>
+      <p style="font-size:13px;color:#9a8060;margin-top:8px;">This may take 30–60 seconds. Please don't close this window.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESULT ══════════════════════════════════════════════════════════════ -->
+<div id="page-result" class="hidden">
+  <div class="header">
+    <p class="header-sub">Draft Complete</p>
+    <h1 class="header-title">Raising Happy Children</h1>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <span class="lbl">Your Claude-Generated Draft</span>
+      <p style="font-size:13px;color:#7a6a50;margin-bottom:18px;font-style:italic;">Review the draft below. Use <strong>Download as Word Doc</strong> to save a formatted file you can open and edit in Microsoft Word.</p>
+      <div class="output-box" id="output-box"></div>
+      <hr class="divider">
+      <div class="export-box">
+        <span class="export-icon">📄</span>
+        <div class="export-info">
+          <strong>Download as Word Document</strong>
+          <span>Opens in Microsoft Word with title page, chapter headings, and body text already formatted.</span>
+        </div>
+        <button class="btn-blue" id="docx-btn" onclick="exportDocx()">⬇ Download .docx</button>
+      </div>
+      <div class="export-box" style="background:#f4f1e8;border-color:#e0d5b8;">
+        <span class="export-icon">🗒️</span>
+        <div class="export-info">
+          <strong style="color:#8a6a20;">Download Everything Written So Far</strong>
+          <span style="color:#7a6a50;">Dr. Johnson's notes exactly as dictated — every stage, each page numbered. Use this anytime to recall the work in progress.</span>
+        </div>
+        <button class="btn" id="notes-btn" onclick="exportNotesDocx('notes-btn')">⬇ Download notes</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="copy-btn" onclick="copyText()">Copy Text</button>
+        <button class="btn-out" onclick="goTo('form')">← Edit My Notes</button>
+        <button class="btn-gold" onclick="generateBook()">Regenerate</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const STAGES = [
+  { id: "pregnancy",    label: "Stage 1: Learning You're Pregnant",          subtitle: "What should parents know the moment they find out?",                          placeholder: "Share your wisdom for new and expectant parents — fears, hopes, what to do first..." },
+  { id: "daddy_baby",   label: "Stage 2: Daddy's Role with the Baby",         subtitle: "The early days — a father's purpose and presence",                           placeholder: "What does a good father look like in those first months of life?" },
+  { id: "mommy_baby",   label: "Stage 3: Mommy's Role with the Baby",         subtitle: "A mother's irreplaceable bond",                                              placeholder: "What does a mother provide that no one else can in a child's earliest years?" },
+  { id: "needs_mommy",  label: "Stage 4: When They Need Mommy More Than Daddy", subtitle: "Recognizing a child's emotional pull toward Mom",                         placeholder: "At what ages and in what situations does a child lean toward their mother?" },
+  { id: "needs_daddy",  label: "Stage 5: When They Need a Dad Figure More Than Mom", subtitle: "The season when fathers step to the forefront",                      placeholder: "When does a child begin to need the presence, strength, or guidance of a father figure most?" },
+  { id: "independence", label: "Stage 6: Becoming Independent",               subtitle: "The first sparks of 'I can do it myself'",                                  placeholder: "How should parents handle a child's growing desire for independence?" },
+  { id: "puberty",      label: "Stage 7: Going Through Puberty",              subtitle: "Navigating one of life's most turbulent transitions",                        placeholder: "What do parents need to understand — and do — during puberty?" },
+  { id: "young_adult",  label: "Stage 8: Becoming a Young Adult",             subtitle: "College years, first jobs, first heartbreaks",                              placeholder: "How should parents evolve their role as their child enters adulthood?" },
+  { id: "leave_nest",   label: "Stage 9: Leaving the Nest",                   subtitle: "The end goal — a healthy, independent human being",                         placeholder: "What does success look like? How do you know you've raised a child well?" },
+];
+
+let answers = {};
+let activeStage = 0;
+let outputText = "";
+let recognizers = {};
+
+// ── Saving / storage ───────────────────────────────────────────────────────────
+// One fixed bucket so there is no login — the link just works. A different person
+// can use ?u=name in the URL for a separate bucket if ever needed.
+const USER_ID = (new URLSearchParams(location.search).get('u') || 'dr-johnson').replace(/[^a-z0-9-_]/gi, '').slice(0, 64) || 'dr-johnson';
+let saveTimer = null;
+let lastSavedJSON = '';
+
+function collectState() {
+  return {
+    u: USER_ID,
+    answers: answers,
+    bookGoal: (document.getElementById('book-goal') || {}).value || '',
+    voiceSample: (document.getElementById('voice-sample') || {}).value || '',
+    draft: outputText || ''
+  };
+}
+
+function setSaveStatus(t) {
+  const el = document.getElementById('save-status');
+  if (el) el.textContent = t;
+}
+
+function scheduleSave() {
+  // Immediate on-device cushion in case the network blips.
+  try { localStorage.setItem('rhc:' + USER_ID, JSON.stringify(collectState())); } catch (_) {}
+  setSaveStatus('Saving…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 1200);
+}
+
+async function saveNow() {
+  const payload = JSON.stringify(collectState());
+  if (payload === lastSavedJSON) { setSaveStatus('Saved \u2713'); return; }
+  try {
+    const r = await fetch('/api/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload });
+    if (r.ok) { lastSavedJSON = payload; setSaveStatus('Saved \u2713'); }
+    else { setSaveStatus('Saved on this device'); }
+  } catch (_) {
+    setSaveStatus('Saved on this device');
+  }
+}
+
+async function bootstrap() {
+  let data = null;
+  try {
+    const r = await fetch('/api/load?u=' + encodeURIComponent(USER_ID));
+    if (r.ok) data = await r.json();
+  } catch (_) {}
+  if (!data || !Object.keys(data).length) {
+    try { const ls = localStorage.getItem('rhc:' + USER_ID); if (ls) data = JSON.parse(ls); } catch (_) {}
+  }
+  if (data && Object.keys(data).length) {
+    answers = data.answers || {};
+    if (data.bookGoal) document.getElementById('book-goal').value = data.bookGoal;
+    if (data.voiceSample) document.getElementById('voice-sample').value = data.voiceSample;
+    if (data.draft) outputText = data.draft;
+    lastSavedJSON = JSON.stringify(collectState());
+    const filled = STAGES.filter(s => (answers[s.id] || '').trim()).length;
+    if (filled > 0 || outputText) showResumeBanner(filled);
+  }
+  // Keep the optional intro/voice boxes saving as he types too.
+  const goalEl = document.getElementById('book-goal');
+  const voiceEl = document.getElementById('voice-sample');
+  if (goalEl) goalEl.addEventListener('input', scheduleSave);
+  if (voiceEl) voiceEl.addEventListener('input', scheduleSave);
+}
+
+function showResumeBanner(filled) {
+  const note = document.getElementById('resume-note');
+  const txt = document.getElementById('resume-text');
+  if (!note || !txt) return;
+  if (outputText) {
+    txt.textContent = "Your work is saved. You can keep adding notes, or view the draft you already generated.";
+  } else {
+    txt.textContent = "We saved your progress \u2014 " + filled + " of " + STAGES.length + " stages filled in. Pick up right where you left off.";
+  }
+  note.classList.remove('hidden');
+  const vd = document.getElementById('resume-view-draft');
+  if (vd) {
+    if (outputText) {
+      vd.classList.remove('hidden');
+      vd.onclick = () => { document.getElementById('output-box').textContent = outputText; goTo('result'); };
+    } else {
+      vd.classList.add('hidden');
+    }
+  }
+}
+
+function continueWhereLeftOff() {
+  let idx = STAGES.findIndex(s => !(answers[s.id] || '').trim());
+  activeStage = idx === -1 ? STAGES.length - 1 : idx;
+  goTo('form');
+}
+
+// ── Navigation ───────────────────────────────────────────────────────────────
+function goTo(page) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + page).classList.remove('hidden');
+  if (page === 'form') renderForm();
+  window.scrollTo(0, 0);
+}
+
+// ── Form rendering ───────────────────────────────────────────────────────────
+function renderForm() {
+  const s = STAGES[activeStage];
+  document.getElementById('form-stage-label').textContent = `Stage ${activeStage + 1} of ${STAGES.length}`;
+  document.getElementById('form-stage-title').textContent = s.label;
+  document.getElementById('form-stage-sub').textContent = s.subtitle;
+  const ta = document.getElementById('stage-answer');
+  ta.placeholder = s.placeholder;
+  ta.value = answers[s.id] || '';
+  ta.oninput = () => { answers[s.id] = ta.value; updateDots(); scheduleSave(); };
+
+  const isLast = activeStage === STAGES.length - 1;
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.textContent = isLast ? 'Continue to Final Step →' : 'Next Stage →';
+
+  updateDots();
+}
+
+function updateDots() {
+  const filled = STAGES.filter(s => (answers[s.id] || '').trim()).length;
+  document.getElementById('pbar').style.width = Math.round(filled / STAGES.length * 100) + '%';
+  document.getElementById('fill-count').textContent = `${filled} of ${STAGES.length} stages filled in`;
+
+  const row = document.getElementById('dots-row');
+  row.innerHTML = '';
+  STAGES.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === activeStage ? ' active' : '') + ((answers[s.id] || '').trim() ? ' filled' : '');
+    d.title = s.label;
+    d.textContent = (answers[s.id] || '').trim() ? '✓' : i + 1;
+    d.onclick = () => { saveCurrentAnswer(); activeStage = i; renderForm(); };
+    row.appendChild(d);
+  });
+}
+
+function saveCurrentAnswer() {
+  answers[STAGES[activeStage].id] = document.getElementById('stage-answer').value;
+  scheduleSave();
+}
+
+function nextStage() {
+  saveCurrentAnswer();
+  if (activeStage === STAGES.length - 1) { goTo('voice'); return; }
+  activeStage++;
+  renderForm();
+  window.scrollTo(0, 0);
+}
+
+function prevStage() {
+  saveCurrentAnswer();
+  if (activeStage === 0) { goTo('intro'); return; }
+  activeStage--;
+  renderForm();
+  window.scrollTo(0, 0);
+}
+
+// ── Microphone ───────────────────────────────────────────────────────────────
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+function toggleMic(context) {
+  if (!SR) { alert('Voice recording requires Chrome or Edge browser.'); return; }
+  if (recognizers[context]) {
+    recognizers[context].stop();
+    delete recognizers[context];
+    updateMicUI(context, false);
+    return;
+  }
+  const r = new SR();
+  r.continuous = true; r.interimResults = true; r.lang = 'en-US';
+  r.onresult = (e) => {
+    let fin = '', tmp = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) fin += e.results[i][0].transcript + ' ';
+      else tmp += e.results[i][0].transcript;
+    }
+    if (fin) appendTranscript(context, fin);
+    const liveEl = document.getElementById('live-' + context);
+    if (liveEl) { liveEl.textContent = tmp ? `Hearing: "${tmp}"` : 'Listening… speak clearly and naturally.'; liveEl.classList.remove('hidden'); }
+  };
+  r.onerror = r.onend = () => { delete recognizers[context]; updateMicUI(context, false); };
+  r.start();
+  recognizers[context] = r;
+  updateMicUI(context, true);
+}
+
+function updateMicUI(context, active) {
+  const btn = document.getElementById('mic-' + context);
+  const live = document.getElementById('live-' + context);
+  if (!btn) return;
+  if (active) {
+    btn.classList.add('recording');
+    btn.innerHTML = '<span>⏹</span><span>Stop Recording</span>';
+    if (live) live.classList.remove('hidden');
+  } else {
+    btn.classList.remove('recording');
+    btn.innerHTML = '<span>🎙️</span><span>Speak Instead of Type</span>';
+    if (live) live.classList.add('hidden');
+  }
+}
+
+function appendTranscript(context, text) {
+  if (context === 'form') {
+    const ta = document.getElementById('stage-answer');
+    ta.value += text;
+    answers[STAGES[activeStage].id] = ta.value;
+  } else if (context === 'voice') {
+    const ta = document.getElementById('voice-sample');
+    ta.value += text;
+  } else if (context === 'intro') {
+    const ta = document.getElementById('book-goal');
+    ta.value += text;
+  }
+  scheduleSave();
+}
+
+// ── Generate ─────────────────────────────────────────────────────────────────
+async function generateBook() {
+  saveCurrentAnswer();
+  goTo('generate');
+
+  const voiceSample = document.getElementById('voice-sample').value.trim();
+  const bookGoal = document.getElementById('book-goal').value.trim();
+
+  const stageContent = STAGES.map(s => `## ${s.label}\n${(answers[s.id] || '').trim() || '(No notes provided)'}`).join('\n\n');
+
+  const prompt = `You are a ghostwriter helping Dr. Johnson, a 97-year-old child development expert, write a parenting book called "Raising Happy Children."
+
+${voiceSample ? `VOICE SAMPLE — study carefully and match his rhythm, warmth, and word choices:\n---\n${voiceSample}\n---\n` : ''}
+
+BOOK PURPOSE: ${bookGoal || 'To help parents and grandparents understand their children and how to raise healthy, productive human beings.'}
+
+Dr. Johnson has shared his personal wisdom for each stage of a child's development. Your job:
+1. Write in his voice — warm, experienced, pastoral, direct
+2. Expand each stage into a polished book section (3–5 paragraphs)
+3. Make it feel like wisdom from a grandfather who has seen everything
+4. Use simple, timeless language — not trendy or clinical
+5. Open each section with a short memorable line
+
+Dr. Johnson's notes:
+
+${stageContent}
+
+Write the full book with a brief Foreword in his voice, then each stage as its own chapter. Use "## Stage X: [Title]" to mark each chapter heading so it formats correctly.`;
+
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ u: USER_ID, prompt })
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      outputText = 'The book could not be generated right now' + (data && data.error ? ' (' + data.error + ')' : '') + '. Don\u2019t worry \u2014 all of Dr. Johnson\u2019s notes are saved. Please try again in a moment.';
+    } else {
+      outputText = (data.text || '').trim() || 'No output received. Your notes are saved \u2014 please try again.';
+    }
+  } catch (e) {
+    outputText = 'Something went wrong reaching the server. All notes are saved \u2014 please try again.';
+  }
+
+  document.getElementById('output-box').textContent = outputText;
+  scheduleSave();
+  goTo('result');
+}
+
+// ── Copy ─────────────────────────────────────────────────────────────────────
+function copyText() {
+  navigator.clipboard.writeText(outputText);
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = '✓ Copied!';
+  btn.className = 'btn-green';
+  setTimeout(() => { btn.textContent = 'Copy Text'; btn.className = 'btn'; }, 2200);
+}
+
+// ── Word Export ───────────────────────────────────────────────────────────────
+// Footer that auto-numbers every page ("Page 1", "Page 2", …).
+function pageNumberFooter() {
+  const { Footer, Paragraph, TextRun, AlignmentType, PageNumber } = docx;
+  return new Footer({
+    children: [
+      new Paragraph({
+        alignment: AlignmentType.CENTER,
+        children: [new TextRun({ children: ['Page ', PageNumber.CURRENT], size: 18, color: '7a6a50', font: 'Georgia' })]
+      })
+    ]
+  });
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// The polished, AI-written book.
+function exportDocx() {
+  const btn = document.getElementById('docx-btn');
+  btn.textContent = 'Preparing…';
+  btn.disabled = true;
+
+  try {
+    const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak } = docx;
+    const lines = outputText.split('\n');
+    const children = [];
+
+    // Title page
+    children.push(
+      new Paragraph({ children: [new TextRun({ text: 'Raising Happy Children', bold: true, size: 56, color: '2c2416', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { before: 2880, after: 480 } }),
+      new Paragraph({ children: [new TextRun({ text: 'by Dr. Johnson', italics: true, size: 28, color: '7a6a50', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { after: 2880 } }),
+      new Paragraph({ children: [new PageBreak()] })
+    );
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) { children.push(new Paragraph({ spacing: { after: 120 } })); continue; }
+      if (/^#{1,2}\s/.test(trimmed) || /^(Stage \d+:|Chapter \d+|Foreword)/i.test(trimmed)) {
+        children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: trimmed.replace(/^#+\s+/, ''), bold: true, size: 32, color: '2c2416', font: 'Georgia' })], spacing: { before: 480, after: 240 } }));
+      } else if (/^\*\*.+\*\*$/.test(trimmed)) {
+        children.push(new Paragraph({ children: [new TextRun({ text: trimmed.replace(/\*\*/g, ''), bold: true, italics: true, size: 24, font: 'Georgia' })], spacing: { before: 240, after: 120 } }));
+      } else {
+        children.push(new Paragraph({ children: [new TextRun({ text: trimmed, size: 24, font: 'Georgia' })], spacing: { after: 160 }, indent: { firstLine: 360 } }));
+      }
+    }
+
+    const doc = new Document({
+      styles: {
+        default: { document: { run: { font: 'Georgia', size: 24, color: '2c2416' } } },
+        paragraphStyles: [{ id: 'Heading1', name: 'Heading 1', basedOn: 'Normal', next: 'Normal', quickFormat: true, run: { size: 32, bold: true, font: 'Georgia', color: '2c2416' }, paragraph: { spacing: { before: 480, after: 240 }, outlineLevel: 0 } }]
+      },
+      sections: [{ properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1800 } } }, footers: { default: pageNumberFooter() }, children }]
+    });
+
+    Packer.toBlob(doc).then(blob => {
+      downloadBlob(blob, 'Raising-Happy-Children-Draft.docx');
+      btn.textContent = '✓ Downloaded!';
+      setTimeout(() => { btn.textContent = '⬇ Download .docx'; btn.disabled = false; }, 2500);
+    });
+  } catch (e) {
+    alert('Export failed. Please use the Copy Text button instead.');
+    btn.textContent = '\u2b07 Download .docx';
+    btn.disabled = false;
+  }
+}
+
+// "Recall" document: everything Dr. Johnson has written so far, in his own words.
+// Available anytime, each page auto-numbered, each stage on its own page so it
+// reads as an accumulating manuscript.
+function exportNotesDocx(btnId) {
+  const btn = btnId ? document.getElementById(btnId) : null;
+  const label = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = 'Preparing…'; btn.disabled = true; }
+
+  // Capture anything currently in the open stage box, but only if we're on the form.
+  try {
+    const formPage = document.getElementById('page-form');
+    if (formPage && !formPage.classList.contains('hidden')) saveCurrentAnswer();
+  } catch (_) {}
+
+  try {
+    const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak } = docx;
+    const children = [];
+    const today = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Title page
+    children.push(
+      new Paragraph({ children: [new TextRun({ text: 'Raising Happy Children', bold: true, size: 52, color: '2c2416', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { before: 2880, after: 200 } }),
+      new Paragraph({ children: [new TextRun({ text: 'Working Manuscript — Dr. Johnson', italics: true, size: 26, color: '7a6a50', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { after: 120 } }),
+      new Paragraph({ children: [new TextRun({ text: 'Everything written so far, in his own words', size: 20, color: '9a8060', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { after: 120 } }),
+      new Paragraph({ children: [new TextRun({ text: 'As of ' + today, size: 18, color: '9a8060', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { after: 2880 } }),
+      new Paragraph({ children: [new PageBreak()] })
+    );
+
+    const goal = ((document.getElementById('book-goal') || {}).value || '').trim();
+    if (goal) {
+      children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: 'Purpose of the Book', bold: true, size: 30, color: '2c2416', font: 'Georgia' })], spacing: { before: 240, after: 200 } }));
+      goal.split('\n').forEach(p => { if (p.trim()) children.push(new Paragraph({ children: [new TextRun({ text: p.trim(), size: 24, font: 'Georgia' })], spacing: { after: 160 }, indent: { firstLine: 360 } })); });
+      children.push(new Paragraph({ children: [new PageBreak()] }));
+    }
+
+    let any = false;
+    STAGES.forEach(s => {
+      const txt = (answers[s.id] || '').trim();
+      if (!txt) return;
+      if (any) children.push(new Paragraph({ children: [new PageBreak()] }));
+      any = true;
+      children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: s.label, bold: true, size: 30, color: '2c2416', font: 'Georgia' })], spacing: { before: 240, after: 200 } }));
+      txt.split('\n').forEach(p => {
+        if (p.trim()) children.push(new Paragraph({ children: [new TextRun({ text: p.trim(), size: 24, font: 'Georgia' })], spacing: { after: 160 }, indent: { firstLine: 360 } }));
+        else children.push(new Paragraph({ spacing: { after: 120 } }));
+      });
+    });
+
+    if (!any && !goal) {
+      children.push(new Paragraph({ children: [new TextRun({ text: 'Nothing has been written yet.', italics: true, size: 24, color: '7a6a50', font: 'Georgia' })] }));
+    }
+
+    const doc = new Document({
+      styles: {
+        default: { document: { run: { font: 'Georgia', size: 24, color: '2c2416' } } },
+        paragraphStyles: [{ id: 'Heading1', name: 'Heading 1', basedOn: 'Normal', next: 'Normal', quickFormat: true, run: { size: 30, bold: true, font: 'Georgia', color: '2c2416' }, paragraph: { spacing: { before: 240, after: 200 }, outlineLevel: 0 } }]
+      },
+      sections: [{ properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1800 } } }, footers: { default: pageNumberFooter() }, children }]
+    });
+
+    Packer.toBlob(doc).then(blob => {
+      downloadBlob(blob, 'Raising-Happy-Children-Notes.docx');
+      if (btn) { btn.textContent = '✓ Downloaded!'; setTimeout(() => { btn.textContent = label; btn.disabled = false; }, 2500); }
+    });
+  } catch (e) {
+    alert('Could not build the Word file. Please try again.');
+    if (btn) { btn.textContent = label; btn.disabled = false; }
+  }
+}
+
+// ── Start ──────────────────────────────────────────────────────────────────────
+bootstrap();
+</script>
+</body>
+</html>
