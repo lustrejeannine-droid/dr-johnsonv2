@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Backup &amp; Recovery — Raising Happy Children</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://unpkg.com/docx@8.5.0/build/index.umd.js';document.head.appendChild(s);"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #faf7f2; font-family: Georgia, 'Times New Roman', serif; color: #2c2416; min-height: 100vh; }
@@ -185,6 +185,10 @@ function downloadWord(){ if(!current){return;} buildWord(current,'Raising-Happy-
 function saveBlob(blob,name){ const u=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=u; a.download=name; a.click(); URL.revokeObjectURL(u); }
 
 function buildWord(data,filename){
+  if (typeof docx === 'undefined') {
+    alert('The Word builder is still loading or was blocked by your browser. Please reload this page and try again — or use the "Download full backup (.json)" button, which always works.');
+    return;
+  }
   const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak, Footer, PageNumber } = docx;
   const footer = new Footer({ children:[ new Paragraph({ alignment: AlignmentType.CENTER, children:[ new TextRun({ children:['Page ', PageNumber.CURRENT], size:18, color:'7a6a50', font:'Georgia' }) ] }) ] });
   const kids=[];
@@ -200,7 +204,7 @@ function buildWord(data,filename){
   ORDER.forEach(id=>{ const t=((data.answers||{})[id]||'').trim(); if(!t)return; if(any)kids.push(new Paragraph({children:[new PageBreak()]})); any=true; kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:STAGE_LABELS[id], bold:true, size:30, font:'Georgia'})], spacing:{before:240,after:200}})); para(t); });
   if((data.draft||'').trim()){ kids.push(new Paragraph({children:[new PageBreak()]})); kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:'Generated Book Draft', bold:true, size:30, font:'Georgia'})], spacing:{before:240,after:200}})); para(data.draft.trim()); }
   const doc=new Document({ sections:[{ properties:{ page:{ size:{width:12240,height:15840}, margin:{top:1440,right:1440,bottom:1440,left:1800} } }, footers:{default:footer}, children:kids }] });
-  Packer.toBlob(doc).then(b=>saveBlob(b,filename));
+  Packer.toBlob(doc).then(b=>saveBlob(b,filename)).catch(e=>alert('Could not build the Word file: '+(e&&e.message?e.message:e)+'. Please use the .json download instead.'));
 }
 </script>
 </body>
