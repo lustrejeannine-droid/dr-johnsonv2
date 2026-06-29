@@ -120,6 +120,7 @@
       <textarea id="book-goal" rows="4" placeholder="Example: This book is designed to help everyday people stop waiting for 'someday' and decide today to become the best version of themselves, with a clear, practical system to follow."></textarea>
       <div style="margin-top:20px;">
         <button class="btn-blue" onclick="goTo('form')">Begin Writing →</button>
+        <button class="btn-out" onclick="goTo('chapters')" style="margin-left:10px;">Set Up Chapters</button>
       </div>
     </div>
   </div>
@@ -134,6 +135,7 @@
   <div class="wrap">
     <div class="pbar-wrap"><div class="pbar-fill" id="pbar" style="width:0%"></div></div>
     <div class="dots" id="dots-row"></div>
+    <div style="text-align:right;margin-bottom:10px;"><button class="btn-out" style="padding:7px 14px;font-size:11px;" onclick="goTo('chapters')">✎ Edit chapters</button></div>
     <div class="card">
       <p class="sub" id="form-stage-sub"></p>
       <div class="mic-wrap">
@@ -150,6 +152,26 @@
       </div>
     </div>
     <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:8px;" id="fill-count"></p>
+  </div>
+</div>
+
+<!-- ══ CHAPTERS ═════════════════════════════════════════ -->
+<div id="page-chapters" class="hidden">
+  <div class="header">
+    <p class="header-sub">Set Up Your Book</p>
+    <h1 class="header-title">Your Chapters</h1>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <span class="lbl">Add, rename, reorder, or remove chapters</span>
+      <p class="sub">This is your book, so set the chapters however you like. Rename a title, move the order with the arrows, write the optional prompt the tool shows you while you write, or add and remove chapters. Your notes stay attached to each chapter even when you rename it.</p>
+      <div id="chapter-editor"></div>
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-blue" onclick="addChapter()">+ Add Chapter</button>
+        <button class="btn" onclick="goTo('form')">Done →</button>
+        <button class="btn-out" onclick="resetChapters()">Reset to suggested 9</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -206,7 +228,7 @@
 </div>
 
 <script>
-const STAGES = [
+const DEFAULT_CHAPTERS = [
   { id: "one_day",     label: "Chapter 1: It Starts With One Day",          subtitle: "The core promise: you don't need years, you need a decision made today.",          placeholder: "Open the way you would on stage. A story about the one day everything changed, for you or someone you coached, then the plain point it proves: transformation begins with a single decision." },
   { id: "identity",    label: "Chapter 2: Decide Who You Are",              subtitle: "Identity first. You become the person you decide to be before the results show up.",  placeholder: "What does it mean to decide who you are? Share a story or example, then the lesson. How does choosing a new identity change the choices that follow?" },
   { id: "vision",      label: "Chapter 3: See the Best Version of You",     subtitle: "Getting crystal clear on the vision, and why clarity creates momentum.",            placeholder: "How do you help someone picture their best self clearly? Walk through it the way you would with a client. What does that vision look like, feel like, and why does clarity move people to act?" },
@@ -218,6 +240,7 @@ const STAGES = [
   { id: "become_lift", label: "Chapter 9: Become It, and Lift Others",      subtitle: "Sustaining the change, staying accountable, and helping others rise too.",           placeholder: "What does it look like to have truly become your best self, and then lift others? Close with the heart of the message and the way you want the reader to carry it forward." },
 ];
 
+let chapters = DEFAULT_CHAPTERS.map(c => ({ ...c }));
 let answers = {};
 let activeStage = 0;
 let outputText = "";
@@ -235,7 +258,8 @@ function collectState() {
     u: USER_ID,
     answers: answers,
     bookGoal: (document.getElementById('book-goal') || {}).value || '',
-    draft: outputText || ''
+    draft: outputText || '',
+    chapters: chapters
   };
 }
 
@@ -275,10 +299,11 @@ async function bootstrap() {
   }
   if (data && Object.keys(data).length) {
     answers = data.answers || {};
+    if (Array.isArray(data.chapters) && data.chapters.length) chapters = data.chapters.map(c => ({ ...c }));
     if (data.bookGoal) document.getElementById('book-goal').value = data.bookGoal;
     if (data.draft) outputText = data.draft;
     lastSavedJSON = JSON.stringify(collectState());
-    const filled = STAGES.filter(s => (answers[s.id] || '').trim()).length;
+    const filled = chapters.filter(s => (answers[s.id] || '').trim()).length;
     if (filled > 0 || outputText) showResumeBanner(filled);
   }
   // Keep the optional intro box saving as he types too.
@@ -293,7 +318,7 @@ function showResumeBanner(filled) {
   if (outputText) {
     txt.textContent = "Your work is saved. You can keep adding notes, or view the draft you already generated.";
   } else {
-    txt.textContent = "We saved your progress, " + filled + " of " + STAGES.length + " chapters filled in. Pick up right where you left off.";
+    txt.textContent = "We saved your progress, " + filled + " of " + chapters.length + " chapters filled in. Pick up right where you left off.";
   }
   note.classList.remove('hidden');
   const vd = document.getElementById('resume-view-draft');
@@ -308,8 +333,8 @@ function showResumeBanner(filled) {
 }
 
 function continueWhereLeftOff() {
-  let idx = STAGES.findIndex(s => !(answers[s.id] || '').trim());
-  activeStage = idx === -1 ? STAGES.length - 1 : idx;
+  let idx = chapters.findIndex(s => !(answers[s.id] || '').trim());
+  activeStage = idx === -1 ? chapters.length - 1 : idx;
   goTo('form');
 }
 
@@ -318,13 +343,14 @@ function goTo(page) {
   document.querySelectorAll('[id^="page-"]').forEach(p => p.classList.add('hidden'));
   document.getElementById('page-' + page).classList.remove('hidden');
   if (page === 'form') renderForm();
+  if (page === 'chapters') renderChapters();
   window.scrollTo(0, 0);
 }
 
 // ── Form rendering ───────────────────────────────────────────────────────────
 function renderForm() {
-  const s = STAGES[activeStage];
-  document.getElementById('form-stage-label').textContent = `Chapter ${activeStage + 1} of ${STAGES.length}`;
+  const s = chapters[activeStage];
+  document.getElementById('form-stage-label').textContent = `Chapter ${activeStage + 1} of ${chapters.length}`;
   document.getElementById('form-stage-title').textContent = s.label;
   document.getElementById('form-stage-sub').textContent = s.subtitle;
   const ta = document.getElementById('stage-answer');
@@ -332,7 +358,7 @@ function renderForm() {
   ta.value = answers[s.id] || '';
   ta.oninput = () => { answers[s.id] = ta.value; updateDots(); scheduleSave(); };
 
-  const isLast = activeStage === STAGES.length - 1;
+  const isLast = activeStage === chapters.length - 1;
   const nextBtn = document.getElementById('next-btn');
   nextBtn.textContent = isLast ? 'Generate the Book →' : 'Next Chapter →';
 
@@ -340,13 +366,13 @@ function renderForm() {
 }
 
 function updateDots() {
-  const filled = STAGES.filter(s => (answers[s.id] || '').trim()).length;
-  document.getElementById('pbar').style.width = Math.round(filled / STAGES.length * 100) + '%';
-  document.getElementById('fill-count').textContent = `${filled} of ${STAGES.length} chapters filled in`;
+  const filled = chapters.filter(s => (answers[s.id] || '').trim()).length;
+  document.getElementById('pbar').style.width = Math.round(filled / chapters.length * 100) + '%';
+  document.getElementById('fill-count').textContent = `${filled} of ${chapters.length} chapters filled in`;
 
   const row = document.getElementById('dots-row');
   row.innerHTML = '';
-  STAGES.forEach((s, i) => {
+  chapters.forEach((s, i) => {
     const d = document.createElement('div');
     d.className = 'dot' + (i === activeStage ? ' active' : '') + ((answers[s.id] || '').trim() ? ' filled' : '');
     d.title = s.label;
@@ -357,13 +383,13 @@ function updateDots() {
 }
 
 function saveCurrentAnswer() {
-  answers[STAGES[activeStage].id] = document.getElementById('stage-answer').value;
+  answers[chapters[activeStage].id] = document.getElementById('stage-answer').value;
   scheduleSave();
 }
 
 function nextStage() {
   saveCurrentAnswer();
-  if (activeStage === STAGES.length - 1) { generateBook(); return; }
+  if (activeStage === chapters.length - 1) { generateBook(); return; }
   activeStage++;
   renderForm();
   window.scrollTo(0, 0);
@@ -375,6 +401,76 @@ function prevStage() {
   activeStage--;
   renderForm();
   window.scrollTo(0, 0);
+}
+
+// ── Chapter management ──────────────────────────────────────
+function newChapterId(){ return 'ch_' + Date.now() + '_' + Math.random().toString(36).slice(2,7); }
+
+function renderChapters(){
+  const box = document.getElementById('chapter-editor');
+  box.innerHTML = '';
+  chapters.forEach((c, i) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:12px;background:#fcfdff;';
+    const top = document.createElement('div');
+    top.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:8px;';
+    const num = document.createElement('span');
+    num.textContent = (i+1) + '.'; num.style.cssText = 'font-weight:700;color:var(--blue);min-width:22px;';
+    const title = document.createElement('input');
+    title.type = 'text'; title.value = c.label || ''; title.placeholder = 'Chapter title';
+    title.style.cssText = 'flex:1;min-width:140px;';
+    title.oninput = () => { c.label = title.value; scheduleSave(); };
+    const up = document.createElement('button'); up.className='btn-out'; up.textContent='↑'; up.title='Move up';
+    up.style.cssText='padding:6px 10px;'; up.disabled = i===0; up.onclick=()=>moveChapter(i,-1);
+    const down = document.createElement('button'); down.className='btn-out'; down.textContent='↓'; down.title='Move down';
+    down.style.cssText='padding:6px 10px;'; down.disabled = i===chapters.length-1; down.onclick=()=>moveChapter(i,1);
+    const del = document.createElement('button'); del.className='btn-out'; del.textContent='✕'; del.title='Delete chapter';
+    del.style.cssText='padding:6px 10px;color:#c0392b;border-color:#e3b4ad;'; del.disabled = chapters.length<=1; del.onclick=()=>deleteChapter(i);
+    top.appendChild(num); top.appendChild(title); top.appendChild(up); top.appendChild(down); top.appendChild(del);
+    const prompt = document.createElement('textarea');
+    prompt.rows = 2; prompt.value = c.placeholder || '';
+    prompt.placeholder = 'Optional: the guiding prompt shown while writing this chapter';
+    prompt.style.cssText = 'font-size:13px;min-height:54px;';
+    prompt.oninput = () => { c.placeholder = prompt.value; scheduleSave(); };
+    row.appendChild(top); row.appendChild(prompt); box.appendChild(row);
+  });
+  const count = document.createElement('p');
+  count.style.cssText = 'font-size:12px;color:var(--muted);margin-top:6px;';
+  count.textContent = chapters.length + (chapters.length===1?' chapter':' chapters');
+  box.appendChild(count);
+}
+
+function addChapter(){
+  chapters.push({ id: newChapterId(), label: 'Chapter ' + (chapters.length+1) + ': New Chapter', subtitle: '', placeholder: '' });
+  scheduleSave(); renderChapters();
+}
+
+function deleteChapter(i){
+  if (chapters.length <= 1) return;
+  const c = chapters[i];
+  const hasNotes = (answers[c.id] || '').trim();
+  const msg = hasNotes
+    ? 'Delete "' + (c.label || 'this chapter') + '"? The notes written for it will be removed too. Earlier versions are still recoverable from the backup page.'
+    : 'Delete "' + (c.label || 'this chapter') + '"?';
+  if (!confirm(msg)) return;
+  delete answers[c.id];
+  chapters.splice(i, 1);
+  if (activeStage >= chapters.length) activeStage = chapters.length - 1;
+  scheduleSave(); renderChapters();
+}
+
+function moveChapter(i, dir){
+  const j = i + dir;
+  if (j < 0 || j >= chapters.length) return;
+  const t = chapters[i]; chapters[i] = chapters[j]; chapters[j] = t;
+  scheduleSave(); renderChapters();
+}
+
+function resetChapters(){
+  if (!confirm('Reset to the suggested 9 chapters? Titles and prompts return to the defaults. Notes already written under matching chapters are kept.')) return;
+  chapters = DEFAULT_CHAPTERS.map(c => ({ ...c }));
+  activeStage = 0;
+  scheduleSave(); renderChapters();
 }
 
 // ── Microphone ───────────────────────────────────────────────────────────────
@@ -425,7 +521,7 @@ function appendTranscript(context, text) {
   if (context === 'form') {
     const ta = document.getElementById('stage-answer');
     ta.value += text;
-    answers[STAGES[activeStage].id] = ta.value;
+    answers[chapters[activeStage].id] = ta.value;
   } else if (context === 'intro') {
     const ta = document.getElementById('book-goal');
     ta.value += text;
@@ -440,7 +536,7 @@ async function generateBook() {
 
   const bookGoal = document.getElementById('book-goal').value.trim();
 
-  const stageContent = STAGES.map(s => `## ${s.label}\n${(answers[s.id] || '').trim() || '(No notes provided)'}`).join('\n\n');
+  const stageContent = chapters.map(s => `## ${s.label}\n${(answers[s.id] || '').trim() || '(No notes provided)'}`).join('\n\n');
 
   const prompt = `Coach Steven Lloyd is writing his personal-development book called "One Day to the Best Version of You!" Write it in his voice (you already know his style).
 
@@ -458,7 +554,7 @@ Coach Lloyd's notes:
 
 ${stageContent}
 
-Write the full book with a brief Introduction in his voice, then each chapter as its own section. Use "## Chapter X: [Title]" to mark each chapter heading so it formats correctly.`;
+Write the full book with a brief Introduction in his voice, then each chapter as its own section. Begin every chapter heading with "## " so it formats correctly.`;
 
   try {
     const res = await fetch('/api/generate', {
@@ -605,7 +701,7 @@ function exportNotesDocx(btnId) {
     }
 
     let any = false;
-    STAGES.forEach(s => {
+    chapters.forEach(s => {
       const txt = (answers[s.id] || '').trim();
       if (!txt) return;
       if (any) children.push(new Paragraph({ children: [new PageBreak()] }));

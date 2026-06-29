@@ -107,6 +107,22 @@ const STAGE_LABELS = {
 const ORDER = Object.keys(STAGE_LABELS);
 let current = null;
 
+// Build the ordered chapter list for any record: use its saved chapters if it
+// has them, otherwise the original defaults, and never hide an answer that has
+// no matching chapter entry.
+function chapterList(data){
+  const ans = (data && data.answers) || {};
+  let list;
+  if (data && Array.isArray(data.chapters) && data.chapters.length){
+    list = data.chapters.map(c => ({ id: c.id, label: c.label || c.id }));
+  } else {
+    list = ORDER.map(id => ({ id, label: STAGE_LABELS[id] || id }));
+  }
+  const seen = new Set(list.map(x => x.id));
+  Object.keys(ans).forEach(id => { if (!seen.has(id)) list.push({ id, label: id }); });
+  return list;
+}
+
 function uid(){ return document.getElementById('uid').value.trim() || 'coach-lloyd'; }
 function setStatus(t,cls){ const e=document.getElementById('status'); e.textContent=t; e.className='pill '+(cls||''); }
 function fmt(iso){ try{ return new Date(iso).toLocaleString(); }catch(_){ return iso||'unknown'; } }
@@ -149,11 +165,11 @@ function renderLive(live, source){
     d.innerHTML = '<strong>Purpose of the book</strong>: '+(live.bookGoal.length)+' characters'; box.appendChild(d);
   }
   let any=false;
-  ORDER.forEach(id=>{
-    const t=((live.answers||{})[id]||'').trim();
+  chapterList(live).forEach(ch=>{
+    const t=((live.answers||{})[ch.id]||'').trim();
     if(!t) return; any=true;
     const d=document.createElement('div'); d.className='stage-line';
-    d.innerHTML='<strong>'+STAGE_LABELS[id]+'</strong>: '+t.length+' characters'; box.appendChild(d);
+    d.innerHTML='<strong>'+ch.label+'</strong>: '+t.length+' characters'; box.appendChild(d);
   });
   const draft=(live.draft||'').trim();
   const d=document.createElement('div'); d.className='stage-line';
@@ -207,7 +223,7 @@ function buildWord(data,filename){
   const para = t => t.split('\n').forEach(p=> kids.push(new Paragraph({ children:[new TextRun({text:p.trim(), size:24, color:'1c2444', font:'Georgia'})], spacing:{after:160}, indent:{firstLine:360} })));
   if((data.bookGoal||'').trim()){ kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:'Purpose of the Book', bold:true, size:30, color:'080e28', font:'Georgia'})], spacing:{before:240,after:200}})); para(data.bookGoal.trim()); kids.push(new Paragraph({children:[new PageBreak()]})); }
   let any=false;
-  ORDER.forEach(id=>{ const t=((data.answers||{})[id]||'').trim(); if(!t)return; if(any)kids.push(new Paragraph({children:[new PageBreak()]})); any=true; kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:STAGE_LABELS[id], bold:true, size:30, color:'080e28', font:'Georgia'})], spacing:{before:240,after:200}})); para(t); });
+  chapterList(data).forEach(ch=>{ const t=((data.answers||{})[ch.id]||'').trim(); if(!t)return; if(any)kids.push(new Paragraph({children:[new PageBreak()]})); any=true; kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:ch.label, bold:true, size:30, color:'080e28', font:'Georgia'})], spacing:{before:240,after:200}})); para(t); });
   if((data.draft||'').trim()){ kids.push(new Paragraph({children:[new PageBreak()]})); kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:'Generated Book Draft', bold:true, size:30, color:'080e28', font:'Georgia'})], spacing:{before:240,after:200}})); para(data.draft.trim()); }
   const doc=new Document({ sections:[{ properties:{ page:{ size:{width:12240,height:15840}, margin:{top:1440,right:1440,bottom:1440,left:1800} } }, footers:{default:footer}, children:kids }] });
   Packer.toBlob(doc).then(b=>saveBlob(b,filename)).catch(e=>alert('Could not build the Word file: '+(e&&e.message?e.message:e)+'. Please use the .json download instead.'));
