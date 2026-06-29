@@ -3,53 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Backup &amp; Recovery — Raising Happy Children</title>
+<title>Backup &amp; Recovery · One Day to the Best Version of You</title>
 <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://unpkg.com/docx@8.5.0/build/index.umd.js';document.head.appendChild(s);"></script>
 <style>
+  :root {
+    --ink:#080e28; --royal:#121b60; --blue:#254fb3; --white:#ffffff;
+    --mist:#eef1f8; --card:#ffffff; --line:#dde3f1;
+    --text:#2b3556; --muted:#6b7596; --blue-soft:#e9eefb; --blue-border:#c7d4f1;
+    --font-ui:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #faf7f2; font-family: Georgia, 'Times New Roman', serif; color: #2c2416; min-height: 100vh; }
-  .header { background: #2c2416; color: #f5ead6; padding: 30px 40px 24px; border-bottom: 4px solid #c4923a; }
-  .header-sub { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #c4923a; }
-  .header-title { font-size: clamp(20px,4vw,32px); font-weight: 400; font-style: italic; margin-top: 6px; }
+  body { background: var(--mist); font-family: var(--font-ui); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  .header { background: var(--ink); color: #eef1f8; padding: 30px 40px 24px; border-bottom: 4px solid var(--blue); }
+  .header-sub { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #7e93d6; font-weight: 600; }
+  .header-title { font-size: clamp(20px,4vw,32px); font-weight: 700; letter-spacing: -0.01em; margin-top: 6px; color: #fff; }
   .wrap { max-width: 820px; margin: 0 auto; padding: 30px 20px 80px; }
-  .card { background: #fff; border: 1px solid #e8dfc8; border-radius: 4px; padding: 26px 30px; margin-bottom: 18px; box-shadow: 0 2px 14px rgba(44,36,22,0.07); }
-  .lbl { display: block; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #c4923a; margin-bottom: 8px; }
-  h2 { font-size: 19px; font-weight: 400; font-style: italic; margin-bottom: 12px; }
-  p { font-size: 14px; line-height: 1.7; color: #5a4e38; margin-bottom: 10px; }
-  input { padding: 10px 14px; border: 1px solid #d8ccb4; border-radius: 3px; font-family: Georgia, serif; font-size: 14px; background: #fdfaf5; }
-  .btn { padding: 10px 20px; background: #2c2416; color: #f5ead6; border: none; border-radius: 3px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; }
-  .btn-gold { background: #c4923a; color: #fff; }
-  .btn-blue { background: #1a4a7a; color: #fff; }
-  .btn-out { background: transparent; color: #2c2416; border: 1px solid #2c2416; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 26px 30px; margin-bottom: 18px; box-shadow: 0 4px 20px rgba(8,14,40,0.06); }
+  .lbl { display: block; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; font-weight: 700; }
+  h2 { font-size: 19px; font-weight: 700; margin-bottom: 12px; color: var(--ink); }
+  p { font-size: 14px; line-height: 1.7; color: var(--muted); margin-bottom: 10px; }
+  input { padding: 10px 14px; border: 1px solid #cfd8ec; border-radius: 6px; font-family: var(--font-ui); font-size: 14px; background: #fcfdff; color: var(--ink); }
+  .btn { padding: 10px 20px; background: var(--ink); color: #fff; border: none; border-radius: 6px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; font-family: var(--font-ui); font-weight: 600; }
+  .btn-gold { background: var(--blue); color: #fff; }
+  .btn-blue { background: var(--royal); color: #fff; }
+  .btn-out { background: transparent; color: var(--royal); border: 1.5px solid #c2cdec; }
   .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  .pill { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 20px; background: #eef4fb; color: #1a4a7a; border: 1px solid #b8d0e8; }
-  .pill.warn { background: #fff8ee; color: #8a6a20; border-color: #f0dfc0; }
-  .pill.good { background: #eef7ee; color: #3a6a3e; border-color: #bcd9bd; }
-  hr { border: none; border-top: 1px solid #e8dfc8; margin: 18px 0; }
-  .snap { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #e8dfc8; border-radius: 3px; margin-bottom: 8px; flex-wrap: wrap; }
-  .snap .ts { font-size: 13px; color: #5a4e38; }
-  .mono { font-family: ui-monospace, Menlo, monospace; font-size: 12px; background: #f4f1e8; padding: 2px 6px; border-radius: 3px; color: #5a4e38; }
-  .stage-line { font-size: 13px; color: #5a4e38; padding: 4px 0; border-bottom: 1px dashed #eadfc8; }
-  .pathbox { background: #f4f1e8; border: 1px solid #e0d5b8; border-radius: 4px; padding: 16px 18px; font-size: 13px; line-height: 1.7; color: #5a4e38; }
+  .pill { display: inline-block; font-size: 12px; padding: 4px 11px; border-radius: 20px; background: var(--blue-soft); color: var(--royal); border: 1px solid var(--blue-border); font-weight: 600; }
+  .pill.warn { background: #fff6e6; color: #8a6320; border-color: #f0dcb4; }
+  .pill.good { background: #e9f6ee; color: #2e7d46; border-color: #bfe2cb; }
+  hr { border: none; border-top: 1px solid var(--line); margin: 18px 0; }
+  .snap { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+  .snap .ts { font-size: 13px; color: var(--text); }
+  .mono { font-family: ui-monospace, Menlo, monospace; font-size: 12px; background: #eef1f8; padding: 2px 6px; border-radius: 4px; color: var(--royal); }
+  .stage-line { font-size: 13px; color: var(--text); padding: 5px 0; border-bottom: 1px dashed var(--line); }
+  .pathbox { background: #f2f4fa; border: 1px solid #dbe2f2; border-radius: 8px; padding: 16px 18px; font-size: 13px; line-height: 1.75; color: var(--text); }
   .hidden { display: none !important; }
 </style>
 </head>
 <body>
   <div class="header">
-    <p class="header-sub">Internal Tool — For the Team</p>
+    <p class="header-sub">Internal Tool · For the Team</p>
     <h1 class="header-title">Backup &amp; Recovery</h1>
-    <p class="header-sub" style="color:#9a8060;margin-top:4px;">Raising Happy Children — Dr. Johnson</p>
+    <p class="header-sub" style="color:#7e93d6;margin-top:4px;">One Day to the Best Version of You · Coach Steven Lloyd</p>
   </div>
   <div class="wrap">
 
     <div class="card">
-      <span class="lbl">Step 1 — Load the saved work</span>
+      <span class="lbl">Step 1: Load the saved work</span>
       <div class="row">
-        <input id="uid" value="dr-johnson" style="width:220px;">
+        <input id="uid" value="coach-lloyd" style="width:220px;">
         <button class="btn btn-gold" onclick="loadAll()">Load saved work</button>
         <span id="status"></span>
       </div>
-      <p style="margin-top:12px;font-size:13px;color:#9a8060;">This reads from the primary store, and if that ever fails, automatically falls back to the backup store, then to the most recent snapshot.</p>
+      <p style="margin-top:12px;font-size:13px;color:var(--muted);">This reads from the primary store, and if that ever fails, automatically falls back to the backup store, then to the most recent snapshot.</p>
     </div>
 
     <div class="card hidden" id="live-card">
@@ -69,21 +75,21 @@
 
     <div class="card hidden" id="snap-card">
       <span class="lbl">Earlier snapshots (point-in-time backups)</span>
-      <p style="font-size:13px;color:#9a8060;">If the current version ever looks wrong, recover any earlier moment here.</p>
+      <p style="font-size:13px;color:var(--muted);">If the current version ever looks wrong, recover any earlier moment here.</p>
       <div id="snap-list" style="margin-top:10px;"></div>
     </div>
 
     <div class="card">
       <span class="lbl">The retrieval paths (where the document lives)</span>
       <div class="pathbox">
-        <strong>Path 1 — This page (easiest):</strong> bookmark this URL. Load → Download as Word or .json.<br><br>
-        <strong>Path 2 — Straight from storage (last resort):</strong> Cloudflare dashboard →
+        <strong>Path 1: This page (easiest):</strong> bookmark this URL. Load → Download as Word or .json.<br><br>
+        <strong>Path 2: Straight from storage (last resort):</strong> Cloudflare dashboard →
         <span class="mono">Storage &amp; Databases → KV</span> → open the namespace
         <span class="mono">book-storage</span> (primary) or <span class="mono">book-storage-backup</span> (backup) →
-        the key <span class="mono">book:dr-johnson</span> holds the full document as text. Snapshots are the
-        <span class="mono">snap:dr-johnson:&lt;date&gt;</span> keys in the backup namespace.<br><br>
-        <strong>Path 3 — Off-site copy (GitHub, if enabled):</strong> open your backup repo on GitHub →
-        file <span class="mono">backups/dr-johnson.json</span>. It holds the full document, and GitHub's
+        the key <span class="mono">book:coach-lloyd</span> holds the full document as text. Snapshots are the
+        <span class="mono">snap:coach-lloyd:&lt;date&gt;</span> keys in the backup namespace.<br><br>
+        <strong>Path 3: Off-site copy (GitHub, if enabled):</strong> open your backup repo on GitHub →
+        file <span class="mono">backups/coach-lloyd.json</span>. It holds the full document, and GitHub's
         <em>History</em> for that file is a complete, independent version history you can view or download anytime.
       </div>
     </div>
@@ -92,18 +98,18 @@
 
 <script>
 const STAGE_LABELS = {
-  pregnancy:"Stage 1: Learning You're Pregnant", daddy_baby:"Stage 2: Daddy's Role with the Baby",
-  mommy_baby:"Stage 3: Mommy's Role with the Baby", needs_mommy:"Stage 4: When They Need Mommy More Than Daddy",
-  needs_daddy:"Stage 5: When They Need a Dad Figure More Than Mom", independence:"Stage 6: Becoming Independent",
-  puberty:"Stage 7: Going Through Puberty", young_adult:"Stage 8: Becoming a Young Adult",
-  leave_nest:"Stage 9: Leaving the Nest"
+  one_day:"Chapter 1: It Starts With One Day", identity:"Chapter 2: Decide Who You Are",
+  vision:"Chapter 3: See the Best Version of You", inner_game:"Chapter 4: Win the Inner Game",
+  habits:"Chapter 5: Build the Habits That Build You", obstacles:"Chapter 6: Push Through the Obstacles",
+  environment:"Chapter 7: The People and Spaces Around You", action:"Chapter 8: Take Action Now",
+  become_lift:"Chapter 9: Become It, and Lift Others"
 };
 const ORDER = Object.keys(STAGE_LABELS);
 let current = null;
 
-function uid(){ return document.getElementById('uid').value.trim() || 'dr-johnson'; }
+function uid(){ return document.getElementById('uid').value.trim() || 'coach-lloyd'; }
 function setStatus(t,cls){ const e=document.getElementById('status'); e.textContent=t; e.className='pill '+(cls||''); }
-function fmt(iso){ try{ return new Date(iso).toLocaleString(); }catch(_){ return iso||'—'; } }
+function fmt(iso){ try{ return new Date(iso).toLocaleString(); }catch(_){ return iso||'unknown'; } }
 
 async function loadAll(){
   setStatus('Loading…','');
@@ -114,16 +120,16 @@ async function loadAll(){
   setStatus('Loaded','good');
 
   if (data.live){ current = data.live; renderLive(data.live, data.source); }
-  else { document.getElementById('live-card').classList.remove('hidden'); document.getElementById('stages').innerHTML='<p>No current saved version found — check the snapshots below.</p>'; }
+  else { document.getElementById('live-card').classList.remove('hidden'); document.getElementById('stages').innerHTML='<p>No current saved version found, check the snapshots below.</p>'; }
 
   // Off-site (GitHub) status
   const ol = document.getElementById('offsite-line');
   if (data.offsite && data.offsite.github){
     ol.innerHTML = '<span class="pill good">Off-site backup: GitHub ✓</span> '
-      + '<span style="font-size:12px;color:#9a8060;">repo <span class="mono">'+data.offsite.repo+'</span>, file <span class="mono">'+data.offsite.path+'</span>'
+      + '<span style="font-size:12px;color:var(--muted);">repo <span class="mono">'+data.offsite.repo+'</span>, file <span class="mono">'+data.offsite.path+'</span>'
       + (data.offsite.lastPushed ? ' · last pushed '+fmt(data.offsite.lastPushed) : ' · awaiting first push')+'</span>';
   } else {
-    ol.innerHTML = '<span class="pill warn">Off-site backup: not enabled</span> <span style="font-size:12px;color:#9a8060;">(optional — see README to add a GitHub copy)</span>';
+    ol.innerHTML = '<span class="pill warn">Off-site backup: not enabled</span> <span style="font-size:12px;color:var(--muted);">(optional, see README to add a GitHub copy)</span>';
   }
 
   renderSnaps(data.snapshots || []);
@@ -140,18 +146,18 @@ function renderLive(live, source){
   box.innerHTML = '';
   if ((live.bookGoal||'').trim()){
     const d=document.createElement('div'); d.className='stage-line';
-    d.innerHTML = '<strong>Purpose of the book</strong> — '+(live.bookGoal.length)+' characters'; box.appendChild(d);
+    d.innerHTML = '<strong>Purpose of the book</strong>: '+(live.bookGoal.length)+' characters'; box.appendChild(d);
   }
   let any=false;
   ORDER.forEach(id=>{
     const t=((live.answers||{})[id]||'').trim();
     if(!t) return; any=true;
     const d=document.createElement('div'); d.className='stage-line';
-    d.innerHTML='<strong>'+STAGE_LABELS[id]+'</strong> — '+t.length+' characters'; box.appendChild(d);
+    d.innerHTML='<strong>'+STAGE_LABELS[id]+'</strong>: '+t.length+' characters'; box.appendChild(d);
   });
   const draft=(live.draft||'').trim();
   const d=document.createElement('div'); d.className='stage-line';
-  d.innerHTML = draft ? ('<strong>Generated book draft</strong> — '+draft.length+' characters') : '<em>No generated draft yet (his notes above are the source of truth).</em>';
+  d.innerHTML = draft ? ('<strong>Generated book draft</strong>: '+draft.length+' characters') : '<em>No generated draft yet (his notes above are the source of truth).</em>';
   box.appendChild(d);
   if(!any && !draft && !(live.bookGoal||'').trim()) box.innerHTML='<p>This version is empty.</p>';
 }
@@ -177,32 +183,32 @@ async function fetchSnap(key){
 async function downloadSnap(key,kind){
   const data=await fetchSnap(key); if(!data){ alert('Could not load that snapshot.'); return; }
   if(kind==='json') saveBlob(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),'backup-'+key.replace(/[:]/g,'-')+'.json');
-  else buildWord(data,'Raising-Happy-Children-'+key.replace(/[:]/g,'-')+'.docx');
+  else buildWord(data,'One-Day-Best-Version-'+key.replace(/[:]/g,'-')+'.docx');
 }
-function downloadJSON(){ if(!current){return;} saveBlob(new Blob([JSON.stringify(current,null,2)],{type:'application/json'}),'raising-happy-children-backup.json'); }
-function downloadWord(){ if(!current){return;} buildWord(current,'Raising-Happy-Children.docx'); }
+function downloadJSON(){ if(!current){return;} saveBlob(new Blob([JSON.stringify(current,null,2)],{type:'application/json'}),'one-day-best-version-backup.json'); }
+function downloadWord(){ if(!current){return;} buildWord(current,'One-Day-Best-Version-of-You.docx'); }
 
 function saveBlob(blob,name){ const u=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=u; a.download=name; a.click(); URL.revokeObjectURL(u); }
 
 function buildWord(data,filename){
   if (typeof docx === 'undefined') {
-    alert('The Word builder is still loading or was blocked by your browser. Please reload this page and try again — or use the "Download full backup (.json)" button, which always works.');
+    alert('The Word builder is still loading or was blocked by your browser. Please reload this page and try again, or use the "Download full backup (.json)" button, which always works.');
     return;
   }
   const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak, Footer, PageNumber } = docx;
-  const footer = new Footer({ children:[ new Paragraph({ alignment: AlignmentType.CENTER, children:[ new TextRun({ children:['Page ', PageNumber.CURRENT], size:18, color:'7a6a50', font:'Georgia' }) ] }) ] });
+  const footer = new Footer({ children:[ new Paragraph({ alignment: AlignmentType.CENTER, children:[ new TextRun({ children:['Page ', PageNumber.CURRENT], size:18, color:'6b7596', font:'Georgia' }) ] }) ] });
   const kids=[];
   kids.push(
-    new Paragraph({ children:[new TextRun({text:'Raising Happy Children', bold:true, size:52, color:'2c2416', font:'Georgia'})], alignment:AlignmentType.CENTER, spacing:{before:2880,after:200} }),
-    new Paragraph({ children:[new TextRun({text:'Recovered Backup — Dr. Johnson', italics:true, size:26, color:'7a6a50', font:'Georgia'})], alignment:AlignmentType.CENTER, spacing:{after:120} }),
-    new Paragraph({ children:[new TextRun({text:'Saved '+fmt(data.updatedAt), size:18, color:'9a8060', font:'Georgia'})], alignment:AlignmentType.CENTER, spacing:{after:2880} }),
+    new Paragraph({ children:[new TextRun({text:'One Day to the Best Version of You', bold:true, size:52, color:'080e28', font:'Georgia'})], alignment:AlignmentType.CENTER, spacing:{before:2880,after:200} }),
+    new Paragraph({ children:[new TextRun({text:'Recovered Backup, Coach Steven Lloyd', italics:true, size:26, color:'254fb3', font:'Georgia'})], alignment:AlignmentType.CENTER, spacing:{after:120} }),
+    new Paragraph({ children:[new TextRun({text:'Saved '+fmt(data.updatedAt), size:18, color:'6b7596', font:'Georgia'})], alignment:AlignmentType.CENTER, spacing:{after:2880} }),
     new Paragraph({ children:[new PageBreak()] })
   );
-  const para = t => t.split('\n').forEach(p=> kids.push(new Paragraph({ children:[new TextRun({text:p.trim(), size:24, font:'Georgia'})], spacing:{after:160}, indent:{firstLine:360} })));
-  if((data.bookGoal||'').trim()){ kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:'Purpose of the Book', bold:true, size:30, font:'Georgia'})], spacing:{before:240,after:200}})); para(data.bookGoal.trim()); kids.push(new Paragraph({children:[new PageBreak()]})); }
+  const para = t => t.split('\n').forEach(p=> kids.push(new Paragraph({ children:[new TextRun({text:p.trim(), size:24, color:'1c2444', font:'Georgia'})], spacing:{after:160}, indent:{firstLine:360} })));
+  if((data.bookGoal||'').trim()){ kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:'Purpose of the Book', bold:true, size:30, color:'080e28', font:'Georgia'})], spacing:{before:240,after:200}})); para(data.bookGoal.trim()); kids.push(new Paragraph({children:[new PageBreak()]})); }
   let any=false;
-  ORDER.forEach(id=>{ const t=((data.answers||{})[id]||'').trim(); if(!t)return; if(any)kids.push(new Paragraph({children:[new PageBreak()]})); any=true; kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:STAGE_LABELS[id], bold:true, size:30, font:'Georgia'})], spacing:{before:240,after:200}})); para(t); });
-  if((data.draft||'').trim()){ kids.push(new Paragraph({children:[new PageBreak()]})); kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:'Generated Book Draft', bold:true, size:30, font:'Georgia'})], spacing:{before:240,after:200}})); para(data.draft.trim()); }
+  ORDER.forEach(id=>{ const t=((data.answers||{})[id]||'').trim(); if(!t)return; if(any)kids.push(new Paragraph({children:[new PageBreak()]})); any=true; kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:STAGE_LABELS[id], bold:true, size:30, color:'080e28', font:'Georgia'})], spacing:{before:240,after:200}})); para(t); });
+  if((data.draft||'').trim()){ kids.push(new Paragraph({children:[new PageBreak()]})); kids.push(new Paragraph({heading:HeadingLevel.HEADING_1, children:[new TextRun({text:'Generated Book Draft', bold:true, size:30, color:'080e28', font:'Georgia'})], spacing:{before:240,after:200}})); para(data.draft.trim()); }
   const doc=new Document({ sections:[{ properties:{ page:{ size:{width:12240,height:15840}, margin:{top:1440,right:1440,bottom:1440,left:1800} } }, footers:{default:footer}, children:kids }] });
   Packer.toBlob(doc).then(b=>saveBlob(b,filename)).catch(e=>alert('Could not build the Word file: '+(e&&e.message?e.message:e)+'. Please use the .json download instead.'));
 }
