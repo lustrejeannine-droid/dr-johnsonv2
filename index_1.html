@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Day to the Best Version of You · Coach Steven Lloyd</title>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://unpkg.com/docx@8.5.0/build/index.umd.js';document.head.appendChild(s);"></script>
+<style>
+  :root {
+    --ink:#080e28; --royal:#121b60; --blue:#254fb3; --white:#ffffff;
+    --mist:#eef1f8; --card:#ffffff; --line:#dde3f1;
+    --text:#2b3556; --muted:#6b7596; --blue-soft:#e9eefb; --blue-border:#c7d4f1;
+    --rec:#e8453c;
+    --font-ui:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --font-read:Georgia,'Times New Roman',serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--mist); font-family: var(--font-ui); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; font-size: 17px; line-height: 1.6; }
+
+  .header { background: var(--ink); color: #eef1f8; padding: 38px 48px 30px; border-bottom: 4px solid var(--blue); }
+  .header-sub { font-size: 12.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #7e93d6; font-weight: 600; }
+  .header-title { font-size: clamp(25px, 4.6vw, 40px); font-weight: 700; letter-spacing: -0.01em; margin-top: 8px; line-height: 1.15; color: #fff; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 36px 20px 80px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 32px 36px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(8,14,40,0.06); }
+
+  .lbl { display: block; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; font-weight: 700; }
+  .sub { font-size: 16px; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
+  h2.card-title { font-size: 26px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 14px; color: var(--ink); }
+  p.body-text { font-size: 17.5px; line-height: 1.8; color: var(--text); margin-bottom: 14px; }
+
+  textarea { width: 100%; min-height: 130px; border: 1px solid #cfd8ec; border-radius: 8px; padding: 16px 18px; font-family: var(--font-read); font-size: 18.5px; color: var(--ink); background: #fcfdff; resize: vertical; outline: none; line-height: 1.75; transition: border-color 0.15s, box-shadow 0.15s; }
+  input { font: inherit; font-size: 16px; }
+  textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,79,179,0.12); }
+
+  .btn       { padding: 13px 28px; background: var(--ink); color: #fff; border: none; border-radius: 8px; font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; font-family: var(--font-ui); font-weight: 600; transition: filter 0.15s, transform 0.05s; }
+  .btn-blue  { padding: 13px 28px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; font-family: var(--font-ui); font-weight: 600; transition: filter 0.15s, transform 0.05s; }
+  .btn-out   { padding: 12px 24px; background: transparent; color: var(--royal); border: 1.5px solid #c2cdec; border-radius: 8px; font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; font-family: var(--font-ui); font-weight: 600; transition: border-color 0.15s, background 0.15s; }
+  .btn-green { padding: 13px 28px; background: #2e8b57; color: #fff; border: none; border-radius: 8px; font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; font-family: var(--font-ui); font-weight: 600; }
+  .btn:hover,.btn-blue:hover,.btn-green:hover { filter: brightness(1.12); }
+  .btn:active,.btn-blue:active { transform: translateY(1px); }
+  .btn-out:hover { background: var(--blue-soft); border-color: var(--blue); }
+
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; flex-wrap: wrap; gap: 10px; }
+
+  .pbar-wrap { height: 4px; background: #dde3f1; border-radius: 3px; margin-bottom: 26px; overflow: hidden; }
+  .pbar-fill { height: 100%; background: var(--blue); border-radius: 3px; transition: width 0.4s; }
+
+  .dots { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+  .dot { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #cfd8ec; background: #fff; color: var(--muted); font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; flex-shrink: 0; font-family: var(--font-ui); }
+  .dot.active { border: 2px solid var(--blue); background: var(--blue-soft); color: var(--blue); }
+  .dot.filled { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+  .mic-wrap { margin-bottom: 14px; }
+  .mic-btn { display: flex; align-items: center; gap: 10px; padding: 11px 22px; background: #fff; color: var(--royal); border: 1.5px solid #c2cdec; border-radius: 30px; cursor: pointer; font-family: var(--font-ui); font-size: 15px; font-weight: 600; transition: all 0.25s; }
+  .mic-btn:hover { background: var(--blue-soft); border-color: var(--blue); }
+  .mic-btn.recording { background: var(--rec); color: #fff; border-color: var(--rec); animation: ripple 1.4s infinite; }
+  .mic-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .mic-live { margin-top: 8px; padding: 9px 14px; background: var(--blue-soft); border: 1px solid var(--blue-border); border-radius: 6px; font-size: 14px; color: var(--royal); font-style: italic; }
+
+  @keyframes ripple { 0%,100%{ box-shadow: 0 0 0 0 rgba(232,69,60,0.4); } 50%{ box-shadow: 0 0 0 8px rgba(232,69,60,0); } }
+
+  hr.divider { border: none; border-top: 1px solid var(--line); margin: 24px 0; }
+
+  .export-box { background: var(--blue-soft); border: 1px solid var(--blue-border); border-radius: 8px; padding: 16px 20px; margin-bottom: 18px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .export-icon { font-size: 24px; }
+  .export-info { flex: 1; min-width: 220px; }
+  .export-info strong { font-size: 15px; color: var(--royal); display: block; margin-bottom: 2px; }
+  .export-info span { font-size: 13px; color: #5a6a96; }
+
+  .output-box { background: #fcfdff; border: 1px solid var(--line); border-radius: 8px; padding: 28px 32px; white-space: pre-wrap; font-family: var(--font-read); font-size: 18.5px; line-height: 1.9; color: var(--ink); max-height: 520px; overflow-y: auto; margin-bottom: 6px; }
+
+  .loading-center { text-align: center; padding: 60px 40px; }
+  .loading-icon { font-size: 44px; margin-bottom: 18px; }
+
+  .resume-note { background: var(--blue-soft); border: 1px solid var(--blue-border); border-radius: 8px; padding: 18px 20px; margin-bottom: 22px; }
+
+  .app-footer { text-align: center; padding: 24px 20px 44px; }
+  .app-footer a { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: var(--royal); text-decoration: none; padding: 10px 20px; border: 1.5px solid #c2cdec; border-radius: 30px; background: #fff; transition: background 0.15s, border-color 0.15s; }
+  .app-footer a:hover { background: var(--blue-soft); border-color: var(--blue); }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 600px) {
+    .header { padding: 26px 22px 20px; }
+    .card { padding: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="save-status" style="position:fixed;top:10px;right:14px;font-size:13px;color:var(--muted);font-family:var(--font-ui);z-index:60;background:rgba(255,255,255,0.92);padding:5px 13px;border-radius:20px;border:1px solid var(--line);"></div>
+
+<!-- ══ INTRO ══════════════════════════════════════════════════════════════ -->
+<div id="page-intro">
+  <div class="header">
+    <p class="header-sub">A Book Writing Tool for</p>
+    <h1 class="header-title">One Day to the Best Version of You</h1>
+    <p class="header-sub" style="color:#7e93d6;margin-top:6px;">Coach Steven Lloyd · Guided by Claude AI</p>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <span class="lbl">Welcome, Coach Lloyd</span>
+      <h2 class="card-title">Your message. Your voice. Your book.</h2>
+      <p class="body-text">This tool walks you through your book one chapter at a time, from the single decision that starts it all to lifting others along the way. For each chapter, share what you want to say in your own words.</p>
+      <p class="body-text">You can <strong>type</strong> or simply <strong>press the microphone and speak</strong>. When you are finished, Claude turns your thoughts into a polished draft in your voice, which you can download as a Word document.</p>
+      <div id="resume-note" class="resume-note hidden">
+        <strong style="display:block;color:var(--blue);font-size:13px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:8px;">Welcome back, Coach</strong>
+        <span id="resume-text" style="font-size:16px;color:var(--text);line-height:1.6;"></span>
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-blue" onclick="continueWhereLeftOff()">Continue where you left off →</button>
+          <button class="btn-out" id="resume-download-notes" onclick="exportNotesDocx('resume-download-notes')">⬇ Download what's written so far</button>
+          <button class="btn-out hidden" id="resume-view-draft">View saved draft</button>
+        </div>
+      </div>
+      <label class="lbl">What is this book meant to do? (optional)</label>
+      <div class="mic-wrap">
+        <button class="mic-btn" id="mic-intro" onclick="toggleMic('intro')">
+          <span>🎙️</span><span>Speak Instead of Type</span>
+        </button>
+        <p class="mic-hint">Press and speak. Your words appear in the box automatically.</p>
+        <div class="mic-live hidden" id="live-intro"></div>
+      </div>
+      <textarea id="book-goal" rows="4" placeholder="Example: This book is designed to help everyday people stop waiting for 'someday' and decide today to become the best version of themselves, with a clear, practical system to follow."></textarea>
+      <div style="margin-top:20px;">
+        <button class="btn-blue" onclick="goTo('form')">Begin Writing →</button>
+        <button class="btn-out" onclick="goTo('chapters')" style="margin-left:10px;">Set Up Chapters</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FORM ════════════════════════════════════════════════════════════════ -->
+<div id="page-form" class="hidden">
+  <div class="header">
+    <p class="header-sub" id="form-stage-label">Chapter 1 of 9</p>
+    <h1 class="header-title" id="form-stage-title"></h1>
+  </div>
+  <div class="wrap">
+    <div class="pbar-wrap"><div class="pbar-fill" id="pbar" style="width:0%"></div></div>
+    <div class="dots" id="dots-row"></div>
+    <div style="text-align:right;margin-bottom:10px;"><button class="btn-out" style="padding:8px 15px;font-size:12.5px;" onclick="goTo('chapters')">✎ Edit chapters</button></div>
+    <div class="card">
+      <p class="sub" id="form-stage-sub"></p>
+      <div class="mic-wrap">
+        <button class="mic-btn" id="mic-form" onclick="toggleMic('form')">
+          <span>🎙️</span><span>Speak Instead of Type</span>
+        </button>
+        <p class="mic-hint">Press and speak. Your words appear in the box automatically.</p>
+        <div class="mic-live hidden" id="live-form"></div>
+      </div>
+      <textarea id="stage-answer" rows="7" placeholder=""></textarea>
+      <div class="nav-row">
+        <button class="btn-out" onclick="prevStage()">← Back</button>
+        <button class="btn-blue" id="next-btn" onclick="nextStage()">Next Chapter →</button>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);text-align:center;margin-top:8px;" id="fill-count"></p>
+  </div>
+</div>
+
+<!-- ══ CHAPTERS ═════════════════════════════════════════ -->
+<div id="page-chapters" class="hidden">
+  <div class="header">
+    <p class="header-sub">Set Up Your Book</p>
+    <h1 class="header-title">Your Chapters</h1>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <span class="lbl">Add, rename, reorder, or remove chapters</span>
+      <p class="sub">This is your book, so set the chapters however you like. Rename a title, move the order with the arrows, write the optional prompt the tool shows you while you write, or add and remove chapters. Your notes stay attached to each chapter even when you rename it.</p>
+      <div id="chapter-editor"></div>
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-blue" onclick="addChapter()">+ Add Chapter</button>
+        <button class="btn" onclick="goTo('form')">Done →</button>
+        <button class="btn-out" onclick="resetChapters()">Reset to suggested 9</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LOADING ═════════════════════════════════════════════════════════════ -->
+<div id="page-generate" class="hidden">
+  <div class="header">
+    <p class="header-sub">Please wait</p>
+    <h1 class="header-title">Claude is writing your book…</h1>
+  </div>
+  <div class="wrap">
+    <div class="card loading-center">
+      <div class="loading-icon">✍️</div>
+      <p style="font-size:16px;color:var(--text);">Turning Coach Lloyd's notes into a polished draft across all 9 chapters…</p>
+      <p style="font-size:14px;color:var(--muted);margin-top:8px;">This may take 30 to 60 seconds. Please don't close this window.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESULT ══════════════════════════════════════════════════════════════ -->
+<div id="page-result" class="hidden">
+  <div class="header">
+    <p class="header-sub">Draft Complete</p>
+    <h1 class="header-title">One Day to the Best Version of You</h1>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <span class="lbl">Your Claude-Generated Draft</span>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:18px;">Review the draft below. Use <strong>Download as Word Doc</strong> to save a formatted file you can open and edit in Microsoft Word.</p>
+      <div class="output-box" id="output-box"></div>
+      <hr class="divider">
+      <div class="export-box">
+        <span class="export-icon">📄</span>
+        <div class="export-info">
+          <strong>Download as Word Document</strong>
+          <span>Opens in Microsoft Word with title page, chapter headings, and body text already formatted.</span>
+        </div>
+        <button class="btn-blue" id="docx-btn" onclick="exportDocx()">⬇ Download .docx</button>
+      </div>
+      <div class="export-box" style="background:#f2f4fa;border-color:#dbe2f2;">
+        <span class="export-icon">🗒️</span>
+        <div class="export-info">
+          <strong style="color:var(--royal);">Download Everything Written So Far</strong>
+          <span>Coach Lloyd's notes exactly as written, every chapter, each page numbered. Use this anytime to recall the work in progress.</span>
+        </div>
+        <button class="btn" id="notes-btn" onclick="exportNotesDocx('notes-btn')">⬇ Download notes</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="copy-btn" onclick="copyText()">Copy Text</button>
+        <button class="btn-out" onclick="goTo('form')">← Edit My Notes</button>
+        <button class="btn-blue" onclick="generateBook()">Regenerate</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app-footer">
+  <a href="backup.html" target="_blank" rel="noopener">🛟 Backup &amp; Recovery</a>
+</div>
+
+<script>
+const DEFAULT_CHAPTERS = [
+  { id: "one_day",     label: "Chapter 1: It Starts With One Day",          subtitle: "The core promise: you don't need years, you need a decision made today.",          placeholder: "Open the way you would on stage. A story about the one day everything changed, for you or someone you coached, then the plain point it proves: transformation begins with a single decision." },
+  { id: "identity",    label: "Chapter 2: Decide Who You Are",              subtitle: "Identity first. You become the person you decide to be before the results show up.",  placeholder: "What does it mean to decide who you are? Share a story or example, then the lesson. How does choosing a new identity change the choices that follow?" },
+  { id: "vision",      label: "Chapter 3: See the Best Version of You",     subtitle: "Getting crystal clear on the vision, and why clarity creates momentum.",            placeholder: "How do you help someone picture their best self clearly? Walk through it the way you would with a client. What does that vision look like, feel like, and why does clarity move people to act?" },
+  { id: "inner_game",  label: "Chapter 4: Win the Inner Game",              subtitle: "Beliefs, fear, and self-talk. The stories that keep people stuck.",                  placeholder: "What inner stories hold people back, and how do they rewrite them? A real example helps, then the practical takeaway your reader can use today." },
+  { id: "habits",      label: "Chapter 5: Build the Habits That Build You", subtitle: "The daily system. Small disciplines compounding into a different person.",          placeholder: "What daily habits create real change? Share your system or a memorable framework, with a story if one fits, then the steps a reader can start with." },
+  { id: "obstacles",   label: "Chapter 6: Push Through the Obstacles",      subtitle: "Setbacks, excuses, and resistance, and how to keep moving when it gets hard.",       placeholder: "When things get hard and the excuses creep in, how do people keep going? Tell a story about pushing through, then the lesson and the practical move." },
+  { id: "environment", label: "Chapter 7: The People and Spaces Around You", subtitle: "Environment by design: who and what you surround yourself with.",                   placeholder: "How much does environment shape who we become? Share an example of the right people and spaces lifting someone up, then how a reader can design theirs on purpose." },
+  { id: "action",      label: "Chapter 8: Take Action Now",                 subtitle: "Execution and momentum. Beating 'someday' and starting before you feel ready.",      placeholder: "Why is action the thing that separates dreamers from doers? A story about starting before it felt perfect, then the plain push: what should the reader do the moment they finish this chapter?" },
+  { id: "become_lift", label: "Chapter 9: Become It, and Lift Others",      subtitle: "Sustaining the change, staying accountable, and helping others rise too.",           placeholder: "What does it look like to have truly become your best self, and then lift others? Close with the heart of the message and the way you want the reader to carry it forward." },
+];
+
+let chapters = DEFAULT_CHAPTERS.map(c => ({ ...c }));
+let answers = {};
+let activeStage = 0;
+let outputText = "";
+let recognizers = {};
+
+// ── Saving / storage ───────────────────────────────────────────────────────────
+// One fixed bucket so there is no login, the link just works. A different person
+// can use ?u=name in the URL for a separate bucket if ever needed.
+const USER_ID = (new URLSearchParams(location.search).get('u') || 'coach-lloyd').replace(/[^a-z0-9-_]/gi, '').slice(0, 64) || 'coach-lloyd';
+let saveTimer = null;
+let lastSavedJSON = '';
+
+function collectState() {
+  return {
+    u: USER_ID,
+    answers: answers,
+    bookGoal: (document.getElementById('book-goal') || {}).value || '',
+    draft: outputText || '',
+    chapters: chapters
+  };
+}
+
+function setSaveStatus(t) {
+  const el = document.getElementById('save-status');
+  if (el) el.textContent = t;
+}
+
+function scheduleSave() {
+  // Immediate on-device cushion in case the network blips.
+  try { localStorage.setItem('odbv:' + USER_ID, JSON.stringify(collectState())); } catch (_) {}
+  setSaveStatus('Saving…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 1200);
+}
+
+async function saveNow() {
+  const payload = JSON.stringify(collectState());
+  if (payload === lastSavedJSON) { setSaveStatus('Saved \u2713'); return; }
+  try {
+    const r = await fetch('/api/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload });
+    if (r.ok) { lastSavedJSON = payload; setSaveStatus('Saved \u2713'); }
+    else { setSaveStatus('Saved on this device'); }
+  } catch (_) {
+    setSaveStatus('Saved on this device');
+  }
+}
+
+async function bootstrap() {
+  let data = null;
+  try {
+    const r = await fetch('/api/load?u=' + encodeURIComponent(USER_ID));
+    if (r.ok) data = await r.json();
+  } catch (_) {}
+  if (!data || !Object.keys(data).length) {
+    try { const ls = localStorage.getItem('odbv:' + USER_ID); if (ls) data = JSON.parse(ls); } catch (_) {}
+  }
+  if (data && Object.keys(data).length) {
+    answers = data.answers || {};
+    if (Array.isArray(data.chapters) && data.chapters.length) chapters = data.chapters.map(c => ({ ...c }));
+    if (data.bookGoal) document.getElementById('book-goal').value = data.bookGoal;
+    if (data.draft) outputText = data.draft;
+    lastSavedJSON = JSON.stringify(collectState());
+    const filled = chapters.filter(s => (answers[s.id] || '').trim()).length;
+    if (filled > 0 || outputText) showResumeBanner(filled);
+  }
+  // Keep the optional intro box saving as he types too.
+  const goalEl = document.getElementById('book-goal');
+  if (goalEl) goalEl.addEventListener('input', scheduleSave);
+}
+
+function showResumeBanner(filled) {
+  const note = document.getElementById('resume-note');
+  const txt = document.getElementById('resume-text');
+  if (!note || !txt) return;
+  if (outputText) {
+    txt.textContent = "Your work is saved. You can keep adding notes, or view the draft you already generated.";
+  } else {
+    txt.textContent = "We saved your progress, " + filled + " of " + chapters.length + " chapters filled in. Pick up right where you left off.";
+  }
+  note.classList.remove('hidden');
+  const vd = document.getElementById('resume-view-draft');
+  if (vd) {
+    if (outputText) {
+      vd.classList.remove('hidden');
+      vd.onclick = () => { document.getElementById('output-box').textContent = outputText; goTo('result'); };
+    } else {
+      vd.classList.add('hidden');
+    }
+  }
+}
+
+function continueWhereLeftOff() {
+  let idx = chapters.findIndex(s => !(answers[s.id] || '').trim());
+  activeStage = idx === -1 ? chapters.length - 1 : idx;
+  goTo('form');
+}
+
+// ── Navigation ───────────────────────────────────────────────────────────────
+function goTo(page) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + page).classList.remove('hidden');
+  if (page === 'form') renderForm();
+  if (page === 'chapters') renderChapters();
+  window.scrollTo(0, 0);
+}
+
+// ── Form rendering ───────────────────────────────────────────────────────────
+function renderForm() {
+  const s = chapters[activeStage];
+  document.getElementById('form-stage-label').textContent = `Chapter ${activeStage + 1} of ${chapters.length}`;
+  document.getElementById('form-stage-title').textContent = s.label;
+  document.getElementById('form-stage-sub').textContent = s.subtitle;
+  const ta = document.getElementById('stage-answer');
+  ta.placeholder = s.placeholder;
+  ta.value = answers[s.id] || '';
+  ta.oninput = () => { answers[s.id] = ta.value; updateDots(); scheduleSave(); };
+
+  const isLast = activeStage === chapters.length - 1;
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.textContent = isLast ? 'Generate the Book →' : 'Next Chapter →';
+
+  updateDots();
+}
+
+function updateDots() {
+  const filled = chapters.filter(s => (answers[s.id] || '').trim()).length;
+  document.getElementById('pbar').style.width = Math.round(filled / chapters.length * 100) + '%';
+  document.getElementById('fill-count').textContent = `${filled} of ${chapters.length} chapters filled in`;
+
+  const row = document.getElementById('dots-row');
+  row.innerHTML = '';
+  chapters.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === activeStage ? ' active' : '') + ((answers[s.id] || '').trim() ? ' filled' : '');
+    d.title = s.label;
+    d.textContent = (answers[s.id] || '').trim() ? '✓' : i + 1;
+    d.onclick = () => { saveCurrentAnswer(); activeStage = i; renderForm(); };
+    row.appendChild(d);
+  });
+}
+
+function saveCurrentAnswer() {
+  answers[chapters[activeStage].id] = document.getElementById('stage-answer').value;
+  scheduleSave();
+}
+
+function nextStage() {
+  saveCurrentAnswer();
+  if (activeStage === chapters.length - 1) { generateBook(); return; }
+  activeStage++;
+  renderForm();
+  window.scrollTo(0, 0);
+}
+
+function prevStage() {
+  saveCurrentAnswer();
+  if (activeStage === 0) { goTo('intro'); return; }
+  activeStage--;
+  renderForm();
+  window.scrollTo(0, 0);
+}
+
+// ── Chapter management ──────────────────────────────────────
+function newChapterId(){ return 'ch_' + Date.now() + '_' + Math.random().toString(36).slice(2,7); }
+
+function renderChapters(){
+  const box = document.getElementById('chapter-editor');
+  box.innerHTML = '';
+  chapters.forEach((c, i) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:12px;background:#fcfdff;';
+    const top = document.createElement('div');
+    top.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:8px;';
+    const num = document.createElement('span');
+    num.textContent = (i+1) + '.'; num.style.cssText = 'font-weight:700;color:var(--blue);min-width:22px;';
+    const title = document.createElement('input');
+    title.type = 'text'; title.value = c.label || ''; title.placeholder = 'Chapter title';
+    title.style.cssText = 'flex:1;min-width:140px;font-size:16px;';
+    title.oninput = () => { c.label = title.value; scheduleSave(); };
+    const up = document.createElement('button'); up.className='btn-out'; up.textContent='↑'; up.title='Move up';
+    up.style.cssText='padding:6px 10px;'; up.disabled = i===0; up.onclick=()=>moveChapter(i,-1);
+    const down = document.createElement('button'); down.className='btn-out'; down.textContent='↓'; down.title='Move down';
+    down.style.cssText='padding:6px 10px;'; down.disabled = i===chapters.length-1; down.onclick=()=>moveChapter(i,1);
+    const del = document.createElement('button'); del.className='btn-out'; del.textContent='✕'; del.title='Delete chapter';
+    del.style.cssText='padding:6px 10px;color:#c0392b;border-color:#e3b4ad;'; del.disabled = chapters.length<=1; del.onclick=()=>deleteChapter(i);
+    top.appendChild(num); top.appendChild(title); top.appendChild(up); top.appendChild(down); top.appendChild(del);
+    const prompt = document.createElement('textarea');
+    prompt.rows = 2; prompt.value = c.placeholder || '';
+    prompt.placeholder = 'Optional: the guiding prompt shown while writing this chapter';
+    prompt.style.cssText = 'font-size:15px;min-height:58px;';
+    prompt.oninput = () => { c.placeholder = prompt.value; scheduleSave(); };
+    row.appendChild(top); row.appendChild(prompt); box.appendChild(row);
+  });
+  const count = document.createElement('p');
+  count.style.cssText = 'font-size:13px;color:var(--muted);margin-top:6px;';
+  count.textContent = chapters.length + (chapters.length===1?' chapter':' chapters');
+  box.appendChild(count);
+}
+
+function addChapter(){
+  chapters.push({ id: newChapterId(), label: 'Chapter ' + (chapters.length+1) + ': New Chapter', subtitle: '', placeholder: '' });
+  scheduleSave(); renderChapters();
+}
+
+function deleteChapter(i){
+  if (chapters.length <= 1) return;
+  const c = chapters[i];
+  const hasNotes = (answers[c.id] || '').trim();
+  const msg = hasNotes
+    ? 'Delete "' + (c.label || 'this chapter') + '"? The notes written for it will be removed too. Earlier versions are still recoverable from the backup page.'
+    : 'Delete "' + (c.label || 'this chapter') + '"?';
+  if (!confirm(msg)) return;
+  delete answers[c.id];
+  chapters.splice(i, 1);
+  if (activeStage >= chapters.length) activeStage = chapters.length - 1;
+  scheduleSave(); renderChapters();
+}
+
+function moveChapter(i, dir){
+  const j = i + dir;
+  if (j < 0 || j >= chapters.length) return;
+  const t = chapters[i]; chapters[i] = chapters[j]; chapters[j] = t;
+  scheduleSave(); renderChapters();
+}
+
+function resetChapters(){
+  if (!confirm('Reset to the suggested 9 chapters? Titles and prompts return to the defaults. Notes already written under matching chapters are kept.')) return;
+  chapters = DEFAULT_CHAPTERS.map(c => ({ ...c }));
+  activeStage = 0;
+  scheduleSave(); renderChapters();
+}
+
+// ── Microphone ───────────────────────────────────────────────────────────────
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+function toggleMic(context) {
+  if (!SR) { alert('Voice recording requires the Chrome or Edge browser.'); return; }
+  if (recognizers[context]) {
+    recognizers[context].stop();
+    delete recognizers[context];
+    updateMicUI(context, false);
+    return;
+  }
+  const r = new SR();
+  r.continuous = true; r.interimResults = true; r.lang = 'en-US';
+  r.onresult = (e) => {
+    let fin = '', tmp = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) fin += e.results[i][0].transcript + ' ';
+      else tmp += e.results[i][0].transcript;
+    }
+    if (fin) appendTranscript(context, fin);
+    const liveEl = document.getElementById('live-' + context);
+    if (liveEl) { liveEl.textContent = tmp ? `Hearing: "${tmp}"` : 'Listening… speak clearly and naturally.'; liveEl.classList.remove('hidden'); }
+  };
+  r.onerror = r.onend = () => { delete recognizers[context]; updateMicUI(context, false); };
+  r.start();
+  recognizers[context] = r;
+  updateMicUI(context, true);
+}
+
+function updateMicUI(context, active) {
+  const btn = document.getElementById('mic-' + context);
+  const live = document.getElementById('live-' + context);
+  if (!btn) return;
+  if (active) {
+    btn.classList.add('recording');
+    btn.innerHTML = '<span>⏹</span><span>Stop Recording</span>';
+    if (live) live.classList.remove('hidden');
+  } else {
+    btn.classList.remove('recording');
+    btn.innerHTML = '<span>🎙️</span><span>Speak Instead of Type</span>';
+    if (live) live.classList.add('hidden');
+  }
+}
+
+function appendTranscript(context, text) {
+  if (context === 'form') {
+    const ta = document.getElementById('stage-answer');
+    ta.value += text;
+    answers[chapters[activeStage].id] = ta.value;
+  } else if (context === 'intro') {
+    const ta = document.getElementById('book-goal');
+    ta.value += text;
+  }
+  scheduleSave();
+}
+
+// ── Generate ─────────────────────────────────────────────────────────────────
+async function generateBook() {
+  saveCurrentAnswer();
+  goTo('generate');
+
+  const bookGoal = document.getElementById('book-goal').value.trim();
+
+  const stageContent = chapters.map(s => `## ${s.label}\n${(answers[s.id] || '').trim() || '(No notes provided)'}`).join('\n\n');
+
+  const prompt = `Coach Steven Lloyd is writing his personal-development book called "One Day to the Best Version of You!" Write it in his voice (you already know his style).
+
+BOOK PURPOSE: ${bookGoal || 'To help everyday people stop waiting for "someday" and decide today to become the best version of themselves, with a clear, practical system to follow.'}
+
+Coach Lloyd has shared his thoughts for each chapter of the book. Your job:
+1. Expand each chapter into a polished book section (4 to 6 paragraphs) in his confident, motivating, story-driven coaching voice
+2. Where natural, open a chapter with one of his real-life style stories or examples, then draw out the plain, practical lesson and a clear action the reader can take
+3. Use simple, direct, accessible language, never academic or clinical, and explain any term that might be unfamiliar
+4. Open each chapter with a short, memorable line that grabs the reader
+5. Speak straight to the reader as "you," validate where they are stuck, then hand them the path forward
+6. Do not use em dashes anywhere. Use periods, commas, or colons instead.
+
+Coach Lloyd's notes:
+
+${stageContent}
+
+Write the full book with a brief Introduction in his voice, then each chapter as its own section. Begin every chapter heading with "## " so it formats correctly.`;
+
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ u: USER_ID, prompt })
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      outputText = 'The book could not be generated right now' + (data && data.error ? ' (' + data.error + ')' : '') + '. Don\u2019t worry, all of Coach Lloyd\u2019s notes are saved. Please try again in a moment.';
+    } else {
+      outputText = (data.text || '').trim() || 'No output received. Your notes are saved, please try again.';
+    }
+  } catch (e) {
+    outputText = 'Something went wrong reaching the server. All notes are saved, please try again.';
+  }
+
+  document.getElementById('output-box').textContent = outputText;
+  scheduleSave();
+  goTo('result');
+}
+
+// ── Copy ─────────────────────────────────────────────────────────────────────
+function copyText() {
+  navigator.clipboard.writeText(outputText);
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = '✓ Copied!';
+  btn.className = 'btn-green';
+  setTimeout(() => { btn.textContent = 'Copy Text'; btn.className = 'btn'; }, 2200);
+}
+
+// ── Word Export ───────────────────────────────────────────────────────────────
+// Footer that auto-numbers every page ("Page 1", "Page 2", …).
+function pageNumberFooter() {
+  const { Footer, Paragraph, TextRun, AlignmentType, PageNumber } = docx;
+  return new Footer({
+    children: [
+      new Paragraph({
+        alignment: AlignmentType.CENTER,
+        children: [new TextRun({ children: ['Page ', PageNumber.CURRENT], size: 18, color: '6b7596', font: 'Georgia' })]
+      })
+    ]
+  });
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// The polished, AI-written book.
+function exportDocx() {
+  const btn = document.getElementById('docx-btn');
+  if (typeof docx === 'undefined') {
+    alert('The Word builder is still loading or was blocked by your browser. Please reload the page (or use the Copy Text button) and try again.');
+    return;
+  }
+  btn.textContent = 'Preparing…';
+  btn.disabled = true;
+
+  try {
+    const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak } = docx;
+    const lines = outputText.split('\n');
+    const children = [];
+
+    // Title page
+    children.push(
+      new Paragraph({ children: [new TextRun({ text: 'One Day to the Best Version of You', bold: true, size: 52, color: '080e28', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { before: 2880, after: 480 } }),
+      new Paragraph({ children: [new TextRun({ text: 'by Coach Steven Lloyd', italics: true, size: 28, color: '254fb3', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { after: 2880 } }),
+      new Paragraph({ children: [new PageBreak()] })
+    );
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) { children.push(new Paragraph({ spacing: { after: 120 } })); continue; }
+      if (/^#{1,2}\s/.test(trimmed) || /^(Chapter \d+|Foreword|Introduction)/i.test(trimmed)) {
+        children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: trimmed.replace(/^#+\s+/, ''), bold: true, size: 32, color: '080e28', font: 'Georgia' })], spacing: { before: 480, after: 240 } }));
+      } else if (/^\*\*.+\*\*$/.test(trimmed)) {
+        children.push(new Paragraph({ children: [new TextRun({ text: trimmed.replace(/\*\*/g, ''), bold: true, italics: true, size: 24, color: '121b60', font: 'Georgia' })], spacing: { before: 240, after: 120 } }));
+      } else {
+        children.push(new Paragraph({ children: [new TextRun({ text: trimmed, size: 24, color: '1c2444', font: 'Georgia' })], spacing: { after: 160 }, indent: { firstLine: 360 } }));
+      }
+    }
+
+    const doc = new Document({
+      styles: {
+        default: { document: { run: { font: 'Georgia', size: 24, color: '1c2444' } } },
+        paragraphStyles: [{ id: 'Heading1', name: 'Heading 1', basedOn: 'Normal', next: 'Normal', quickFormat: true, run: { size: 32, bold: true, font: 'Georgia', color: '080e28' }, paragraph: { spacing: { before: 480, after: 240 }, outlineLevel: 0 } }]
+      },
+      sections: [{ properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1800 } } }, footers: { default: pageNumberFooter() }, children }]
+    });
+
+    Packer.toBlob(doc).then(blob => {
+      downloadBlob(blob, 'One-Day-Best-Version-Draft.docx');
+      btn.textContent = '✓ Downloaded!';
+      setTimeout(() => { btn.textContent = '⬇ Download .docx'; btn.disabled = false; }, 2500);
+    });
+  } catch (e) {
+    alert('Export failed. Please use the Copy Text button instead.');
+    btn.textContent = '\u2b07 Download .docx';
+    btn.disabled = false;
+  }
+}
+
+// "Recall" document: everything Coach Lloyd has written so far, in his own words.
+// Available anytime, each page auto-numbered, each chapter on its own page so it
+// reads as an accumulating manuscript.
+function exportNotesDocx(btnId) {
+  const btn = btnId ? document.getElementById(btnId) : null;
+  if (typeof docx === 'undefined') {
+    alert('The Word builder is still loading or was blocked by your browser. Please reload the page (or use the Copy Text button) and try again.');
+    return;
+  }
+  const label = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = 'Preparing…'; btn.disabled = true; }
+
+  // Capture anything currently in the open chapter box, but only if we're on the form.
+  try {
+    const formPage = document.getElementById('page-form');
+    if (formPage && !formPage.classList.contains('hidden')) saveCurrentAnswer();
+  } catch (_) {}
+
+  try {
+    const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak } = docx;
+    const children = [];
+    const today = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Title page
+    children.push(
+      new Paragraph({ children: [new TextRun({ text: 'One Day to the Best Version of You', bold: true, size: 52, color: '080e28', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { before: 2880, after: 200 } }),
+      new Paragraph({ children: [new TextRun({ text: 'Working Manuscript, Coach Steven Lloyd', italics: true, size: 26, color: '254fb3', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { after: 120 } }),
+      new Paragraph({ children: [new TextRun({ text: 'Everything written so far, in his own words', size: 20, color: '6b7596', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { after: 120 } }),
+      new Paragraph({ children: [new TextRun({ text: 'As of ' + today, size: 18, color: '6b7596', font: 'Georgia' })], alignment: AlignmentType.CENTER, spacing: { after: 2880 } }),
+      new Paragraph({ children: [new PageBreak()] })
+    );
+
+    const goal = ((document.getElementById('book-goal') || {}).value || '').trim();
+    if (goal) {
+      children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: 'Purpose of the Book', bold: true, size: 30, color: '080e28', font: 'Georgia' })], spacing: { before: 240, after: 200 } }));
+      goal.split('\n').forEach(p => { if (p.trim()) children.push(new Paragraph({ children: [new TextRun({ text: p.trim(), size: 24, color: '1c2444', font: 'Georgia' })], spacing: { after: 160 }, indent: { firstLine: 360 } })); });
+      children.push(new Paragraph({ children: [new PageBreak()] }));
+    }
+
+    let any = false;
+    chapters.forEach(s => {
+      const txt = (answers[s.id] || '').trim();
+      if (!txt) return;
+      if (any) children.push(new Paragraph({ children: [new PageBreak()] }));
+      any = true;
+      children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: s.label, bold: true, size: 30, color: '080e28', font: 'Georgia' })], spacing: { before: 240, after: 200 } }));
+      txt.split('\n').forEach(p => {
+        if (p.trim()) children.push(new Paragraph({ children: [new TextRun({ text: p.trim(), size: 24, color: '1c2444', font: 'Georgia' })], spacing: { after: 160 }, indent: { firstLine: 360 } }));
+        else children.push(new Paragraph({ spacing: { after: 120 } }));
+      });
+    });
+
+    if (!any && !goal) {
+      children.push(new Paragraph({ children: [new TextRun({ text: 'Nothing has been written yet.', italics: true, size: 24, color: '6b7596', font: 'Georgia' })] }));
+    }
+
+    const doc = new Document({
+      styles: {
+        default: { document: { run: { font: 'Georgia', size: 24, color: '1c2444' } } },
+        paragraphStyles: [{ id: 'Heading1', name: 'Heading 1', basedOn: 'Normal', next: 'Normal', quickFormat: true, run: { size: 30, bold: true, font: 'Georgia', color: '080e28' }, paragraph: { spacing: { before: 240, after: 200 }, outlineLevel: 0 } }]
+      },
+      sections: [{ properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1800 } } }, footers: { default: pageNumberFooter() }, children }]
+    });
+
+    Packer.toBlob(doc).then(blob => {
+      downloadBlob(blob, 'One-Day-Best-Version-Notes.docx');
+      if (btn) { btn.textContent = '✓ Downloaded!'; setTimeout(() => { btn.textContent = label; btn.disabled = false; }, 2500); }
+    });
+  } catch (e) {
+    alert('Could not build the Word file. Please try again.');
+    if (btn) { btn.textContent = label; btn.disabled = false; }
+  }
+}
+
+// ── Start ──────────────────────────────────────────────────────────────────────
+bootstrap();
+</script>
+</body>
+</html>
