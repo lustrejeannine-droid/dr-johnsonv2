@@ -64,6 +64,7 @@ export async function onRequestPost(context) {
     bookGoal: (body && body.bookGoal) || '',
     voiceSample: (body && body.voiceSample) || '',
     draft: (body && body.draft) || '',
+    chapters: (body && Array.isArray(body.chapters)) ? body.chapters : [],
     updatedAt: new Date().toISOString()
   };
   const payload = JSON.stringify(record);
