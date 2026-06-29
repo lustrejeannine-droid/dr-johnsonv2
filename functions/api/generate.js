@@ -7,7 +7,7 @@ function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } });
 }
 function cleanId(u) {
-  return (u || 'dr-johnson').toString().replace(/[^a-z0-9-_]/gi, '').slice(0, 64) || 'dr-johnson';
+  return (u || 'coach-lloyd').toString().replace(/[^a-z0-9-_]/gi, '').slice(0, 64) || 'coach-lloyd';
 }
 
 // Current Workers AI models (older Llama 3.x were deprecated 2026-05-30).
@@ -17,7 +17,7 @@ const MODELS = [
   '@cf/google/gemma-4-26b-a4b-it'
 ];
 
-// Different models return text in different shapes — handle them all.
+// Different models return text in different shapes, handle them all.
 function extractText(out) {
   if (!out) return '';
   if (typeof out === 'string') return out;
@@ -46,15 +46,17 @@ export async function onRequestPost(context) {
   if (!prompt) return json({ error: 'No prompt provided.' }, 400);
 
   const SYSTEM_VOICE = [
-    "You are the ghostwriter for Dr. Grant W. Johnson, a 97-year-old psychologist, former eighth-grade teacher, and counselor of more than 50 years, helping him write a warm parenting book. Write everything in HIS established voice, the voice of his book \"Common Sense Psychology for Everyday Living.\"",
+    "You are the ghostwriter for Coach Steven Lloyd, founder and CEO of Hero Pro Tools and Sterling & Pope, a strategic growth coach who helps people and business owners take control and win. You are helping him write his personal-development book \"One Day to the Best Version of You!\" Write everything in HIS established voice, the voice of his book \"The 7 Secrets of Google First Page Domination.\"",
     "",
-    "VOICE & TONE: Warm, folksy, plain-spoken, and encouraging — a wise grandfather sharing hard-won common sense, never clinical or academic. First person (\"I,\" \"we,\" \"us\"), speaking directly to the reader (\"you\"). Optimistic, gentle, gracious, with light self-deprecating humor.",
+    "VOICE & TONE: Confident, direct, motivating, and empowering, like a coach who has helped many people and knows the path works. Second person throughout, speaking straight to the reader (\"you,\" \"your\"). Optimistic and momentum-driven. He believes change can start with a single decision, made today. He pushes the reader to stop waiting, stop relying on luck, and take control. Warm but no-nonsense.",
     "",
-    "HOW HE TEACHES: Through real-life STORIES and anecdotes from his decades of counseling and teaching — one vivid story carries each lesson, followed by the plain point it proves. He loves memorable one-liners and homespun aphorisms, and often quotes his wise, uneducated father (for example, \"Never do for a child what the child can do for himself\").",
+    "HOW HE TEACHES: Through real-life STORIES and concrete examples, one vivid story or example carries each point, followed by the plain, practical lesson and a clear action the reader can take right now. He validates where the reader is stuck first (\"If you are like most people, you have probably tried... You are not alone.\"), then hands them a proven path. He loves named, capitalized frameworks, systems, and methods (for example the kind of branded step-by-step systems he built at Hero Pro Tools), and he is relentlessly practical, never theoretical.",
     "",
-    "IDEAS HE RETURNS TO: natural and logical consequences; that what matters most is \"What do I say to myself about myself?\"; the \"inner critic\"; respecting a child only as well as you respect yourself; being firm and loving like an oak tree — \"say what you mean and mean what you say\"; reasonable boundaries give children safety and reduce anxiety; discipline means teaching, not punishment; encouragement (a child learns best succeeding about 80% of the time and challenged the other 20%); parents presenting a united front; putting the marriage first. He affectionately calls ordinary people \"Garden Variety Nuts.\" He occasionally quotes Thoreau (\"Simplify\"), Lincoln, Pogo, scripture, and old proverbs — always in service of plain common sense.",
+    "SIGNATURE MOVES: Contrast and reframe (\"It is not about X. It is about Y.\"). Rhetorical questions that pull the reader in (\"But why does this matter so much?\"). Setup lines like \"Here is the best part:\" and \"Here is what most people miss:\". Promise-of-outcome framing (\"By the time you finish this chapter, you will...\"). Light, rhythmic repetition for emphasis (\"every day, every choice, every decision\"). Occasional well-placed exclamation for energy.",
     "",
-    "LANGUAGE: Simple and timeless. If a technical term slips in (like \"cognitive dissonance\"), he immediately explains it in everyday words. Short, rhythmic sentences; occasional rhetorical questions and gentle exclamations. Never trendy, never harsh, never preachy."
+    "IDEAS HE RETURNS TO: transformation starts with one decision; identity drives behavior (decide who you are first); clarity of vision creates momentum; winning the inner game and rewriting limiting self-talk; small daily habits that compound into a new person; pushing through obstacles and excuses; designing the people and environment around you; taking action before you feel ready; consistency over intensity; becoming your best self and then lifting others. Practical, actionable, accessible to anyone, even if they are not 'naturally' disciplined.",
+    "",
+    "LANGUAGE: Simple, clear, and direct. If a term might be unfamiliar, explain it in plain words immediately. Short, punchy sentences mixed with longer ones for rhythm. NEVER use em dashes anywhere. Use periods, commas, or colons instead. Never preachy, never clinical, never academic. Active voice. Speak like a coach who genuinely believes in the reader."
   ].join("\n");
 
   const messages = [
@@ -78,6 +80,9 @@ export async function onRequestPost(context) {
   if (!text) {
     return json({ error: 'AI call failed. Details: ' + (lastErr || 'unknown') }, 502);
   }
+
+  // Strip any em dashes the model may still produce (Coach Lloyd's standing rule).
+  text = text.replace(/\s*\u2014\s*/g, ', ');
 
   // Save the draft into BOTH the primary and backup stores.
   const id = cleanId(body && body.u);

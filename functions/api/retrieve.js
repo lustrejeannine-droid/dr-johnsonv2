@@ -1,5 +1,5 @@
-// GET /api/retrieve?u=dr-johnson            → live record + list of snapshot times
-// GET /api/retrieve?u=dr-johnson&snap=KEY   → the full data of one snapshot
+// GET /api/retrieve?u=coach-lloyd            → live record + list of snapshot times
+// GET /api/retrieve?u=coach-lloyd&snap=KEY   → the full data of one snapshot
 // Powers the backup/retrieval page (backup.html). This is the human "path to
 // retrieve" everything, independent of the main writing app.
 
@@ -7,7 +7,7 @@ function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } });
 }
 function cleanId(u) {
-  return (u || 'dr-johnson').toString().replace(/[^a-z0-9-_]/gi, '').slice(0, 64) || 'dr-johnson';
+  return (u || 'coach-lloyd').toString().replace(/[^a-z0-9-_]/gi, '').slice(0, 64) || 'coach-lloyd';
 }
 async function readJSON(ns, key) {
   try { const r = await ns.get(key); return r ? JSON.parse(r) : null; } catch (_) { return null; }

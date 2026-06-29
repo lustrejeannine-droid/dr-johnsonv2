@@ -1,5 +1,5 @@
 // POST /api/save
-// Saves Dr. Johnson's work and AUTOMATICALLY COPIES IT to multiple independent
+// Saves Coach Lloyd's work and AUTOMATICALLY COPIES IT to multiple independent
 // places so nothing is ever lost:
 //   1) Primary store    → KV namespace bound as BOOK
 //   2) Backup store      → KV namespace bound as BOOK_BACKUP (the second place)
@@ -13,7 +13,7 @@ function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } });
 }
 function cleanId(u) {
-  return (u || 'dr-johnson').toString().replace(/[^a-z0-9-_]/gi, '').slice(0, 64) || 'dr-johnson';
+  return (u || 'coach-lloyd').toString().replace(/[^a-z0-9-_]/gi, '').slice(0, 64) || 'coach-lloyd';
 }
 // UTF-8 + large-safe base64 (GitHub Contents API wants base64).
 function toBase64(str) {
@@ -27,7 +27,7 @@ function toBase64(str) {
 // Commit the backup JSON to a GitHub repo. Best-effort; never blocks the user.
 async function pushToGitHub(env, id, payload) {
   const owner = env.GITHUB_OWNER, repo = env.GITHUB_REPO, token = env.GITHUB_TOKEN;
-  if (!owner || !repo || !token) return; // off-site backup not configured — skip
+  if (!owner || !repo || !token) return; // off-site backup not configured, skip
   const branch = env.GITHUB_BRANCH || 'main';
   const path = 'backups/' + id + '.json';
   const api = 'https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + path;

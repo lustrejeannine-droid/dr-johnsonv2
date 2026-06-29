@@ -1,4 +1,4 @@
-// GET /api/load?u=dr-johnson
+// GET /api/load?u=coach-lloyd
 // Tries every place in order so a failure in one never loses the document:
 //   primary (BOOK) → backup (BOOK_BACKUP) → newest snapshot.
 // Returns {} only if truly nothing exists anywhere.
@@ -7,7 +7,7 @@ function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } });
 }
 function cleanId(u) {
-  return (u || 'dr-johnson').toString().replace(/[^a-z0-9-_]/gi, '').slice(0, 64) || 'dr-johnson';
+  return (u || 'coach-lloyd').toString().replace(/[^a-z0-9-_]/gi, '').slice(0, 64) || 'coach-lloyd';
 }
 async function readJSON(ns, key) {
   try { const r = await ns.get(key); return r ? JSON.parse(r) : null; } catch (_) { return null; }
